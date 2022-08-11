@@ -10,21 +10,20 @@ import {render} from '../render';
 export default class ListPresenter {
   pointsList = new ListView();
 
-  init = (listContainer) => {  // где мы это все будем  делать
-
+  init = (listContainer) => {
     render(this.pointsList, listContainer);
 
     for (let i = 0; i < 5; i++) {
-      const listItem =  new ListItemView();
+      const listItem = new ListItemView();
 
       render(listItem, this.pointsList.getElement());
       let listItemContent = null;
       if (i === 0) {
-        listItemContent = new EditPointView()
+        listItemContent = new EditPointView();
       } else if (i === 1) {
-        listItemContent = new AddNewPointView()
+        listItemContent = new AddNewPointView();
       } else {
-        listItemContent = new PointView()
+        listItemContent = new PointView();
       }
       render(listItemContent, listItem.getElement());
     }
