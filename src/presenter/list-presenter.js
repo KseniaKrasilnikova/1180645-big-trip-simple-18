@@ -16,7 +16,11 @@ export default class ListPresenter {
 
     render(this.pointsList, this.listContainer);
     render(new EditPointView(), this.pointsList.getElement());
-    render(new AddNewPointView(), this.pointsList.getElement());
+    // render(new AddNewPointView(), this.pointsList.getElement());
+
+    for (let i = 0; i < this.listDestinations.length; i++) {
+      render(new AddNewPointView(this.listDestinations[i]), this.pointsList.getElement());
+    }
 
     for (let i = 0; i < POINTS_COUNTER; i++) {
       render(new PointView(), this.pointsList.getElement());

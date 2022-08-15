@@ -1,7 +1,9 @@
 import {createElement} from '../render';
 
-const createAddNewPointTemplate = () => (
-  `<li class="trip-events__item">
+const createAddNewPointTemplate = (task) => {
+  const {description} = task;
+  return (
+    `<li class="trip-events__item">
     <form class="event event--edit" action="#" method="post">
       <header class="event__header">
         <div class="event__type-wrapper">
@@ -145,10 +147,9 @@ const createAddNewPointTemplate = () => (
             </div>
           </div>
         </section>
-
         <section class="event__section  event__section--destination">
           <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-          <p class="event__destination-description">Geneva is a city in Switzerland that lies at the southern tip of expansive Lac Léman (Lake Geneva). Surrounded by the Alps and Jura mountains, the city has views of dramatic Mont Blanc.</p>
+          <p class="event__destination-description">${description}</p>
           <div class="event__photos-container">
             <div class="event__photos-tape">
               <img class="event__photo" src="img/photos/1.jpg" alt="Event photo">
@@ -162,11 +163,17 @@ const createAddNewPointTemplate = () => (
       </section>
     </form>
   </li>`
-);
+  );
+}
+
 
 export default class AddNewPointView {
+  constructor(task) {
+    this.task = task;
+  }
+
   getTemplate() {
-    return createAddNewPointTemplate();
+    return createAddNewPointTemplate(this.task);
   }
 
   getElement() {
