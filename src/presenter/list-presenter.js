@@ -9,8 +9,10 @@ const POINTS_COUNTER = 3;
 export default class ListPresenter {
   pointsList = new ListView();
 
-  init = (listContainer) => {
+  init = (listContainer, destinationsModel) => {
     this.listContainer = listContainer;
+    this.destinationsModel = destinationsModel;
+    this.listDestinations = [...this.destinationsModel.getDestinations()];
 
     render(this.pointsList, this.listContainer);
     render(new EditPointView(), this.pointsList.getElement());
