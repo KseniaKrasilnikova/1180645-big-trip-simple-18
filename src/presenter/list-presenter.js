@@ -10,7 +10,10 @@ import {render} from '../render';
 export default class ListPresenter {
   pointsList = new ListView();
 
-  init = (listContainer) => {
+  init = (listContainer, destinationsModel) => {
+    this.destinationsModel = destinationsModel;
+    this.listDestinations = [...this.destinationsModel.getDestinations()];
+
     render(this.pointsList, listContainer);
 
     for (let i = 0; i < 5; i++) {
