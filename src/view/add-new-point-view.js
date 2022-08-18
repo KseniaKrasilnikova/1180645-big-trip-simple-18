@@ -2,18 +2,18 @@ import {createElement} from '../render';
 import {pics} from '../mock/mock-destination';
 
 const createAddNewPointTemplate = (task) => {
-  const {description} = task;
-  const {name} = task;
-  const {pictures} = task;
+  // const {description} = task;
+  // const {name} = task;
+  // const {pictures} = task;
 
-  function renderPictures(ids) {
-    return ids.map(id => {
-      const picture = pics.find(pic => {
-        return pic.id === id;
-      });
-      return `<img class=\"event__photo\" src=${picture.src} alt=${picture.description}>`
-    }).join("")
-  }
+  // function renderPictures(ids) {
+  //   return ids.map(id => {
+  //     const picture = pics.find(pic => {
+  //       return pic.id === id;
+  //     });
+  //     return `<img class=\"event__photo\" src=${picture.src} alt=${picture.description}>`
+  //   }).join("")
+  // }
 
   return (
     `<li class="trip-events__item">
@@ -82,7 +82,7 @@ const createAddNewPointTemplate = (task) => {
           <label class="event__label  event__type-output" for="event-destination-1">
             Flight
           </label>
-          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value=${name} list="destination-list-1">
+          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${name}" list="destination-list-1">
           <datalist id="destination-list-1">
             <option value="Amsterdam"></option>
             <option value="Geneva"></option>
@@ -158,10 +158,10 @@ const createAddNewPointTemplate = (task) => {
         </section>
         <section class="event__section  event__section--destination">
           <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-          <p class="event__destination-description">${description}</p>
+          <p class="event__destination-description">description</p>
           <div class="event__photos-container">
             <div class="event__photos-tape">
-                ${renderPictures(pictures)}
+                renderPictures(pictures)
             </div>
           </div>
         </section>
@@ -170,7 +170,6 @@ const createAddNewPointTemplate = (task) => {
   </li>`
   );
 }
-
 
 export default class AddNewPointView {
   constructor(task) {
