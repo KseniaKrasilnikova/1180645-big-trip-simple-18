@@ -1,4 +1,3 @@
-// удалить потом этот файл
 import {getRandomInteger} from '../utils.js';
 
 const generateDescription = () => {
@@ -63,9 +62,11 @@ function shuffle(array) {
   return array;
 }
 
-export const generateDestination = () => ({
-    "id": 1,
+export const generateDestination = (id) => {
+  return {
+    id,
     "description": generateDescription(),
     "name": generateCityName(),
     "pictures": shuffle([0, 1, 2, 3])
-});
+  };
+};

@@ -1,12 +1,24 @@
 import {createElement} from '../render';
+import dayjs from 'dayjs';
 
-const createPointTemplate = (point) => {
+const getDayFromDate = (date) => dayjs(date).format('D MMM');
+
+const createPointViewTemplate = (point, offers) => {
   const {dateFrom, dateTo} = point;
+  const generateOffersTemplate = (offers) => `
+    ${offers.map((offer) => `
+      <li class="event__offer">
+        <span class="event__offer-title">${offer.title}</span>
+        &plus;&euro;&nbsp;
+        <span class="event__offer-price">${offer.price}</span>
+      </li>
+    `).join('')}
+  `
 
   return `
     <li class="trip-events__item">
     <div class="event">
-      <time class="event__date" datetime="2019-03-18">${dateFrom}</time>
+      <time class="event__date" datetime="2019-03-18">${getDayFromDate(dateFrom)}</time>
       <div class="event__type">
         <img class="event__type-icon" width="42" height="42" src="img/icons/taxi.png" alt="Event type icon">
       </div>
@@ -23,11 +35,7 @@ const createPointTemplate = (point) => {
        </p>
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
-        <li class="event__offer">
-          <span class="event__offer-title">Order Uber</span>
-          &plus;&euro;&nbsp;
-          <span class="event__offer-price">20</span>
-        </li>
+        ${generateOffersTemplate(offers)}
       </ul>
       <button class="event__rollup-btn" type="button">
         <span class="visually-hidden">Open event</span>
@@ -38,11 +46,13 @@ const createPointTemplate = (point) => {
 };
 
 export default class PointView {
-  constructor(point) {
+  constructor(point, offers, destination) {
     this.point = point;
+    this.offers = offers;
+    this.destination = destination;
   }
   getTemplate() {
-    return createPointTemplate(this.point);
+    return createPointViewTemplate(this.point, this.offers, this.destination);
   }
 
   getElement() {

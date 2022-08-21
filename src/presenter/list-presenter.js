@@ -5,15 +5,13 @@ import PointView from '../view/point-view.js';
 import {render} from '../render';
 import PointModel from '../model/point-model';
 
-const POINTS_COUNTER = 10;
-
 export default class ListPresenter {
   pointsList = new ListView();
 
   init = (listContainer) => {
     this.listContainer = listContainer;
-    this.pointsModel = new PointModel();
-    this.points = this.pointsModel.getPoints();
+    this.pointsModel = new PointModel(); // создаем новый объект из класса
+    this.points = this.pointsModel.getPoints();  // вызываем-создаем все поинты, к-ые мы нагенерировали
 
     render(this.pointsList, this.listContainer);
     render(new EditPointView(), this.pointsList.getElement());
@@ -23,7 +21,8 @@ export default class ListPresenter {
       render(
         new PointView (
           this.points[i],
-
+          this.pointsModel.getPointOffers(this.points[i]),
+          this.pointsModel.getPointDestination(this.points[i])
         ), this.pointsList.getElement()
       );
     }
