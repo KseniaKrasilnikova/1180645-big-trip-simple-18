@@ -1,4 +1,4 @@
-import {getRandomInteger} from '../utils.js';
+import {getRandomInteger, shuffle} from '../utils.js';
 
 const generateDescription = () => {
   const descriptions = [
@@ -50,17 +50,6 @@ export const pics = [
     "description": "Paris baguette"
   },
 ];
-
-function shuffle(array) {
-  let currentIndex = array.length,  randomIndex;
-  while (currentIndex !== 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex], array[currentIndex]];
-  }
-  return array;
-}
 
 export const generateDestination = (id) => {
   return {

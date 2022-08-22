@@ -1,24 +1,41 @@
-import {getRandomInteger} from '../utils';
+import {getRandomInteger, shuffle} from '../utils';
 import dayjs from 'dayjs';
-import {OFFERS_TYPE} from '../const';
+import {OFFERS_TYPE, POINTS_COUNT} from '../const';
+import {generateOffer} from './mock-offer';
 
 const generateDate = () => {
   const maxDaysGap = 50;
-  const daysGap = getRandomInteger(-maxDaysGap, maxDaysGap);
+  const maxHourGap = 23;
+  const maxMinuteGap = 5;
 
-  return dayjs().add(daysGap, 'day').toDate();
+  const daysGap = getRandomInteger(-maxDaysGap, maxDaysGap);
+  const hourGap = getRandomInteger(-maxHourGap, maxHourGap);
+  const minuteGap = getRandomInteger(0, maxMinuteGap) * 10;
+
+  return dayjs().add(daysGap, 'day')
+    .add(hourGap, 'hour')
+    .set('minute', minuteGap)
+    .toDate();
 };
 
-export const generatePoint = () => {
-  const date = generateDate();
+const generateArray = () => {
+  const array = Array.from({length: POINTS_COUNT}, (_value, key) => key + 1);
+  const shuffledArray = shuffle(array);
+  const arrayLength = getRandomInteger(0, POINTS_COUNT - 5);
+  for (let i = 0; i < POINTS_COUNT; i++) {
+    array.push(i + 1)
+  }
+  return shuffledArray.slice(0, arrayLength);
+}
 
+export const generatePoint = () => {
   return {
-    "basePrice": getRandomInteger(1000, 20000),
-    "dateFrom": generateDate(),
-    "dateTo": generateDate(),
-    "destination": getRandomInteger(0, 1000),
-    "id": getRandomInteger(0, 1000),
-    "offers": [1, 2, 3],
-    "type": OFFERS_TYPE[getRandomInteger(0, OFFERS_TYPE.length-1)]
+    'basePrice': getRandomInteger(1000, 20000),
+    'dateFrom': generateDate(),
+    'dateTo': generateDate(),
+    'destination': getRandomInteger(0, 1000),
+    'id': getRandomInteger(0, 1000),
+    'offers': generateArray(),
+    'type': OFFERS_TYPE[getRandomInteger(0, OFFERS_TYPE.length - 1)]
   };
 };

@@ -12,4 +12,21 @@ const getRandomInteger = (a = 0, b = 1) => {
 const getDayFromDate = (date) => dayjs(date).format('D MMM');
 const getTimeFromDate = (date) => dayjs(date).format('hh:mm');
 
-export {getRandomInteger, getDayFromDate, getTimeFromDate};
+function shuffle(array) {
+  let currentIndex = array.length, randomIndex;
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+  return array;
+}
+
+export {
+  getRandomInteger,
+  getDayFromDate,
+  getTimeFromDate,
+  shuffle
+};
+

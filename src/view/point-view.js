@@ -1,10 +1,9 @@
 import {createElement} from '../render';
-import dayjs from 'dayjs';
-
-const getDayFromDate = (date) => dayjs(date).format('D MMM');
+import {getRandomInteger, getDayFromDate, getTimeFromDate} from '../utils';
 
 const createPointViewTemplate = (point, offers) => {
-  const {dateFrom, dateTo} = point;
+  const {dateFrom, dateTo, basePrice} = point;
+
   const generateOffersTemplate = (offers) => `
     ${offers.map((offer) => `
       <li class="event__offer">
@@ -25,13 +24,13 @@ const createPointViewTemplate = (point, offers) => {
       <h3 class="event__title">Taxi Amsterdam</h3>
       <div class="event__schedule">
         <p class="event__time">
-          <time class="event__start-time" datetime="2019-03-18T10:30">10:30</time>
+          <time class="event__start-time" datetime="2019-03-18T10:30">${getTimeFromDate(dateFrom)}</time>
           &mdash;
-          <time class="event__end-time" datetime="2019-03-18T11:00">11:00</time>
+          <time class="event__end-time" datetime="2019-03-18T11:00">${getTimeFromDate(dateTo)}</time>
         </p>
       </div>
       <p class="event__price">
-         &euro;&nbsp;<span class="event__price-value">20</span>
+         &euro;&nbsp;<span class="event__price-value">${basePrice}</span>
        </p>
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
