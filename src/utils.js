@@ -11,7 +11,8 @@ const getRandomInteger = (a = 0, b = 1) => {
 
 const getDayFromDate = (date) => dayjs(date).format('D MMM');
 const getTimeFromDate = (date) => dayjs(date).format('hh:mm');
-const getDateValue= (date) => dayjs(date).format('YYYY-MM-DDThh:mm');
+const getYyyyMmDdTFromDate = (date) => dayjs(date).format('YYYY-MM-DDThh:mm');
+const getDMYTFromDate = (date) => dayjs(date).format('MM/DD/YY hh:mm');
 
 function shuffle(array) {
   let currentIndex = array.length, randomIndex;
@@ -28,7 +29,8 @@ export {
   getRandomInteger,
   getDayFromDate,
   getTimeFromDate,
-  getDateValue,
+  getYyyyMmDdTFromDate,
+  getDMYTFromDate,
   shuffle
 };
 

@@ -1,19 +1,20 @@
 import {createElement} from '../render';
 import {pics} from '../mock/mock-destination';
+import {getDMYTFromDate} from '../utils';
 
-const createAddNewPointTemplate = (task) => {
-  // const {description} = task;
-  // const {name} = task;
-  // const {pictures} = task;
+const AddNewPointViewTemplate = (point, offers, destinations) => {
+  const {dateFrom, dateTo, basePrice, type, destination} = point;
+  const {name, description, pictures} = destinations;
 
-  // function renderPictures(ids) {
-  //   return ids.map(id => {
-  //     const picture = pics.find(pic => {
-  //       return pic.id === id;
-  //     });
-  //     return `<img class=\"event__photo\" src=${picture.src} alt=${picture.description}>`
-  //   }).join("")
-  // }
+
+  function renderPictures(ids) {
+    return ids.map(id => {
+      const picture = pics.find(pic => {
+        return pic.id === id;
+      });
+      return `<img class=\"event__photo\" src=${picture.src} alt=${picture.description}>`
+    }).join("")
+  }
 
   return (
     `<li class="trip-events__item">
@@ -25,7 +26,6 @@ const createAddNewPointTemplate = (task) => {
             <img class="event__type-icon" width="17" height="17" src="img/icons/flight.png" alt="Event type icon">
           </label>
           <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
-
           <div class="event__type-list">
             <fieldset class="event__type-group">
               <legend class="visually-hidden">Event type</legend>
@@ -77,10 +77,9 @@ const createAddNewPointTemplate = (task) => {
             </fieldset>
           </div>
         </div>
-
         <div class="event__field-group  event__field-group--destination">
           <label class="event__label  event__type-output" for="event-destination-1">
-            Flight
+            ${type}
           </label>
           <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${name}" list="destination-list-1">
           <datalist id="destination-list-1">
@@ -91,10 +90,10 @@ const createAddNewPointTemplate = (task) => {
         </div>
         <div class="event__field-group  event__field-group--time">
           <label class="visually-hidden" for="event-start-time-1">From</label>
-            <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="19/03/19 00:00">
+            <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${getDMYTFromDate(dateFrom)}">
             &mdash;
           <label class="visually-hidden" for="event-end-time-1">To</label>
-          <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="19/03/19 00:00">
+          <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${getDMYTFromDate(dateTo)}">
         </div>
         <div class="event__field-group  event__field-group--price">
           <label class="event__label" for="event-price-1">
@@ -158,10 +157,10 @@ const createAddNewPointTemplate = (task) => {
         </section>
         <section class="event__section  event__section--destination">
           <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-          <p class="event__destination-description">description</p>
+          <p class="event__destination-description">${description}</p>
           <div class="event__photos-container">
             <div class="event__photos-tape">
-                renderPictures(pictures)
+                ${renderPictures(pictures)}
             </div>
           </div>
         </section>
@@ -172,12 +171,14 @@ const createAddNewPointTemplate = (task) => {
 }
 
 export default class AddNewPointView {
-  constructor(task) {
-    this.task = task;
+  constructor(point, offers, destinations) {
+    this.point = point;
+    this.offers = offers;
+    this.destination = destinations;
   }
 
   getTemplate() {
-    return createAddNewPointTemplate(this.task);
+    return AddNewPointViewTemplate(this.point, this.offers, this.destination);
   }
 
   getElement() {

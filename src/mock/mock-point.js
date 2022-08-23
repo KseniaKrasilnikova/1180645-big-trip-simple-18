@@ -1,7 +1,6 @@
 import {getRandomInteger, shuffle} from '../utils';
 import dayjs from 'dayjs';
 import {OFFERS_TYPE, POINTS_COUNT} from '../const';
-import {generateCityName} from './mock-destination';
 
 const generateDate = () => {
   const maxDaysGap = 50;
@@ -33,7 +32,7 @@ export const generatePoint = () => {
     'basePrice': getRandomInteger(1000, 20000),
     'dateFrom': generateDate(),
     'dateTo': generateDate(),
-    'destination': generateCityName(),
+    'destination': getRandomInteger(1, POINTS_COUNT),
     'id': getRandomInteger(0, 1000),
     'offers': generateArray(),
     'type': OFFERS_TYPE[getRandomInteger(0, OFFERS_TYPE.length - 1)]

@@ -1,8 +1,9 @@
 import {createElement} from '../render';
-import {getRandomInteger, getDayFromDate, getTimeFromDate, getDateValue} from '../utils';
+import {getDayFromDate, getTimeFromDate, getYyyyMmDdTFromDate} from '../utils';
 
-const createPointViewTemplate = (point, offers) => {
-  const {dateFrom, dateTo, basePrice, type, destination} = point;
+const createPointViewTemplate = (point, offers, destinations) => {
+  const {dateFrom, dateTo, basePrice, type} = point;
+  const {name} = destinations;
 
   const generateOffersTemplate = (offers) => `
     ${offers.map((offer) => `
@@ -17,16 +18,16 @@ const createPointViewTemplate = (point, offers) => {
   return `
     <li class="trip-events__item">
     <div class="event">
-      <time class="event__date" datetime="${getDateValue(dateFrom)}">${getDayFromDate(dateFrom)}</time>
+      <time class="event__date" datetime="${getYyyyMmDdTFromDate(dateFrom)}">${getDayFromDate(dateFrom)}</time>
       <div class="event__type">
         <img class="event__type-icon" width="42" height="42" src="img/icons/taxi.png" alt="Event type icon">
       </div>
-      <h3 class="event__title">${type} ${destination}</h3>
+      <h3 class="event__title">${type} ${name}</h3>
       <div class="event__schedule">
         <p class="event__time">
-          <time class="event__start-time" datetime="${getDateValue(dateFrom)}">${getTimeFromDate(dateFrom)}</time>
+          <time class="event__start-time" datetime="${getYyyyMmDdTFromDate(dateFrom)}">${getTimeFromDate(dateFrom)}</time>
           &mdash;
-          <time class="event__end-time" datetime="${getDateValue(dateTo)}">${getTimeFromDate(dateTo)}</time>
+          <time class="event__end-time" datetime="${getYyyyMmDdTFromDate(dateTo)}">${getTimeFromDate(dateTo)}</time>
         </p>
       </div>
       <p class="event__price">
@@ -45,13 +46,13 @@ const createPointViewTemplate = (point, offers) => {
 };
 
 export default class PointView {
-  constructor(point, offers, destination) {
+  constructor(point, offers, destinations) {
     this.point = point;
     this.offers = offers;
-    this.destination = destination;
+    this.destinations = destinations;
   }
   getTemplate() {
-    return createPointViewTemplate(this.point, this.offers, this.destination);
+    return createPointViewTemplate(this.point, this.offers, this.destinations);
   }
 
   getElement() {
