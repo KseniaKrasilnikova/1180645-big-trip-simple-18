@@ -12,7 +12,7 @@ const generateDescription = () => {
   return descriptions[randomIndex];
 };
 
-const generateCityName = () => {
+export const generateCityName = () => {
   const cities = [
     'Chamonix',
     'Paris',

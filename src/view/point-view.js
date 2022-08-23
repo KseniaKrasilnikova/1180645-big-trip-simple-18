@@ -1,8 +1,8 @@
 import {createElement} from '../render';
-import {getRandomInteger, getDayFromDate, getTimeFromDate} from '../utils';
+import {getRandomInteger, getDayFromDate, getTimeFromDate, getDateValue} from '../utils';
 
 const createPointViewTemplate = (point, offers) => {
-  const {dateFrom, dateTo, basePrice} = point;
+  const {dateFrom, dateTo, basePrice, type, destination} = point;
 
   const generateOffersTemplate = (offers) => `
     ${offers.map((offer) => `
@@ -17,16 +17,16 @@ const createPointViewTemplate = (point, offers) => {
   return `
     <li class="trip-events__item">
     <div class="event">
-      <time class="event__date" datetime="2019-03-18">${getDayFromDate(dateFrom)}</time>
+      <time class="event__date" datetime="${getDateValue(dateFrom)}">${getDayFromDate(dateFrom)}</time>
       <div class="event__type">
         <img class="event__type-icon" width="42" height="42" src="img/icons/taxi.png" alt="Event type icon">
       </div>
-      <h3 class="event__title">Taxi Amsterdam</h3>
+      <h3 class="event__title">${type} ${destination}</h3>
       <div class="event__schedule">
         <p class="event__time">
-          <time class="event__start-time" datetime="2019-03-18T10:30">${getTimeFromDate(dateFrom)}</time>
+          <time class="event__start-time" datetime="${getDateValue(dateFrom)}">${getTimeFromDate(dateFrom)}</time>
           &mdash;
-          <time class="event__end-time" datetime="2019-03-18T11:00">${getTimeFromDate(dateTo)}</time>
+          <time class="event__end-time" datetime="${getDateValue(dateTo)}">${getTimeFromDate(dateTo)}</time>
         </p>
       </div>
       <p class="event__price">
