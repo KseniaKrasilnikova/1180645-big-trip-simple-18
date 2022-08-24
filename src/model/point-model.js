@@ -5,12 +5,7 @@ import {POINTS_COUNT} from '../const';
 
 export default class PointModel {
   addPoint = generatePoint();
-  addDestinations = generateDestination(1);
-  // getAddPointDestination = (newPoint) => {
-  //   return this.addDestinations.find((destination) =>
-  //     newPoint.destination === destination.id)
-  // };
-
+  editPoint = generatePoint();
 
   points = Array.from({length: POINTS_COUNT}, generatePoint);
   offers = Array.from({length: POINTS_COUNT}, (_value, key) => generateOffer(key + 1))

@@ -14,7 +14,13 @@ export default class ListPresenter {
     this.points = this.pointsModel.getPoints();  // вызываем-создаем все поинты, к-ые мы нагенерировали
 
     render(this.pointsList, this.listContainer);
-    render(new EditPointView(), this.pointsList.getElement());
+    // render(new EditPointView(), this.pointsList.getElement());
+    render(new EditPointView(
+      this.pointsModel.editPoint,
+      this.pointsModel.getPointOffers(this.pointsModel.editPoint),
+      this.pointsModel.getPointDestination(this.pointsModel.editPoint)
+    ), this.pointsList.getElement());
+
     render(new AddNewPointView(
       this.pointsModel.addPoint,
       this.pointsModel.getPointOffers(this.pointsModel.addPoint),
