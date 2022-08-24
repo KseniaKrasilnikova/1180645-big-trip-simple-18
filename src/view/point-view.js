@@ -5,15 +5,15 @@ const createPointViewTemplate = (point, offers, destinations) => {
   const {dateFrom, dateTo, basePrice, type} = point;
   const {name} = destinations;
 
-  const generateOffersTemplate = (offers) => `
-    ${offers.map((offer) => `
+  const generateOffersTemplate = (generatedOffers) => `
+    ${generatedOffers.map((offer) => `
       <li class="event__offer">
         <span class="event__offer-title">${offer.title}</span>
         &plus;&euro;&nbsp;
         <span class="event__offer-price">${offer.price}</span>
       </li>
     `).join('')}
-  `
+  `;
 
   return `
     <li class="trip-events__item">
@@ -51,6 +51,7 @@ export default class PointView {
     this.offers = offers;
     this.destinations = destinations;
   }
+
   getTemplate() {
     return createPointViewTemplate(this.point, this.offers, this.destinations);
   }

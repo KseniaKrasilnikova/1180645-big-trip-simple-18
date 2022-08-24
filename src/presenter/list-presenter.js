@@ -11,10 +11,9 @@ export default class ListPresenter {
   init = (listContainer) => {
     this.listContainer = listContainer;
     this.pointsModel = new PointModel(); // создаем новый объект из класса
-    this.points = this.pointsModel.getPoints();  // вызываем-создаем все поинты, к-ые мы нагенерировали
+    this.points = this.pointsModel.getPoints(); // вызываем-создаем все поинты, к-ые мы нагенерировали
 
     render(this.pointsList, this.listContainer);
-    // render(new EditPointView(), this.pointsList.getElement());
     render(new EditPointView(
       this.pointsModel.editPoint,
       this.pointsModel.getPointOffers(this.pointsModel.editPoint),

@@ -4,8 +4,9 @@ import {getDMYTFromDate} from '../utils';
 const createEditPointTemplate = (point, offers, destinations) => {
   const {dateFrom, dateTo, type, basePrice} = point;
   const {name, description} = destinations;
-  const generateOffersTemplate = (offers) => `
-    ${offers.map((offer) => `
+
+  const generateOffersTemplate = (generatedOffers) => `
+    ${generatedOffers.map((offer) => `
       <div class="event__offer-selector">
         <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" checked>
         <label class="event__offer-label" for="event-offer-luggage-1">
@@ -15,7 +16,7 @@ const createEditPointTemplate = (point, offers, destinations) => {
         </label>
       </div>
     `).join('')}
-  `
+  `;
 
   return (
     `<li class="trip-events__item">
@@ -121,7 +122,6 @@ const createEditPointTemplate = (point, offers, destinations) => {
                 ${generateOffersTemplate(offers)}
             </div>
           </section>
-
           <section class="event__section  event__section--destination">
             <h3 class="event__section-title  event__section-title--destination">Destination</h3>
             <p class="event__destination-description">${description}</p>
@@ -130,7 +130,7 @@ const createEditPointTemplate = (point, offers, destinations) => {
       </form>
     </li>`
   );
-}
+};
 
 export default class EditPointView {
   constructor(point, offers, destinations) {

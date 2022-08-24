@@ -22,19 +22,17 @@ const generateArray = () => {
   const shuffledArray = shuffle(array);
   const arrayLength = getRandomInteger(0, POINTS_COUNT - 5);
   for (let i = 0; i < POINTS_COUNT; i++) {
-    array.push(i + 1)
+    array.push(i + 1);
   }
   return shuffledArray.slice(0, arrayLength);
-}
-
-export const generatePoint = () => {
-  return {
-    'basePrice': getRandomInteger(1000, 20000),
-    'dateFrom': generateDate(),
-    'dateTo': generateDate(),
-    'destination': getRandomInteger(1, POINTS_COUNT),
-    'id': getRandomInteger(0, 1000),
-    'offers': generateArray(),
-    'type': OFFERS_TYPE[getRandomInteger(0, OFFERS_TYPE.length - 1)]
-  };
 };
+
+export const generatePoint = () => ({
+  'basePrice': getRandomInteger(1000, 20000),
+  'dateFrom': generateDate(),
+  'dateTo': generateDate(),
+  'destination': getRandomInteger(1, POINTS_COUNT),
+  'id': getRandomInteger(0, 1000),
+  'offers': generateArray(),
+  'type': OFFERS_TYPE[getRandomInteger(0, OFFERS_TYPE.length - 1)]
+});

@@ -6,8 +6,8 @@ const AddNewPointViewTemplate = (point, offers, destinations) => {
   const {dateFrom, dateTo, type} = point;
   const {name, description, pictures} = destinations;
 
-  const generateOffersTemplate = (offers) => `
-    ${offers.map((offer) => `
+  const generateOffersTemplate = (generatedOffers) => `
+    ${generatedOffers.map((offer) => `
       <div class="event__offer-selector">
         <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" checked>
         <label class="event__offer-label" for="event-offer-luggage-1">
@@ -17,16 +17,16 @@ const AddNewPointViewTemplate = (point, offers, destinations) => {
         </label>
       </div>
     `).join('')}
-  `
+  `;
 
-  function renderPictures(ids) {
-    return ids.map(id => {
-      const picture = pics.find(pic => {
-        return pic.id === id;
-      });
-      return `<img class=\"event__photo\" src=${picture.src} alt=${picture.description}>`
-    }).join("")
-  }
+  const renderPictures = (ids) => (
+    ids.map((id) => {
+      const picture = pics.find((pic) => (
+        pic.id === id
+      ));
+      return `<img class="event__photo" src=${picture.src} alt=${picture.description}>`;
+    }).join('')
+  );
 
   return (
     `<li class="trip-events__item">
@@ -136,7 +136,7 @@ const AddNewPointViewTemplate = (point, offers, destinations) => {
     </form>
   </li>`
   );
-}
+};
 
 export default class AddNewPointView {
   constructor(point, offers, destinations) {

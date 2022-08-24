@@ -17,10 +17,8 @@ const generateOfferTitle = () => {
   return titles[randomIndex];
 };
 
-export const generateOffer = (id) => {
-  return {
-    id,
-    "title": generateOfferTitle(),
-    "price": getRandomInteger(0, 100)
-  }
-};
+export const generateOffer = (id) => ({
+  id,
+  'title': generateOfferTitle(),
+  'price': getRandomInteger(0, 100)
+});

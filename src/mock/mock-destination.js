@@ -31,31 +31,29 @@ export const generateCityName = () => {
 export const pics = [
   {
     id: 0,
-    "src": "http://picsum.photos/300/200?r=0.07623163317",
-    "description": "Madrid cow"
+    'src': 'http://picsum.photos/300/200?r=0.07623163317',
+    'description': 'Madrid cow'
   },
   {
     id: 1,
-    "src": "http://picsum.photos/300/200?r=0.0762563005163317",
-    "description": "Chamonix parliament building"
+    'src': 'http://picsum.photos/300/200?r=0.0762563005163317',
+    'description': 'Chamonix parliament building'
   },
   {
     id: 2,
-    "src": "http://picsum.photos/300/200?r=0.076256316317",
-    "description": "Moscow horseshoe"
+    'src': 'http://picsum.photos/300/200?r=0.076256316317',
+    'description': 'Moscow horseshoe'
   },
   {
     id: 3,
-    "src": "http://picsum.photos/300/200?r=0.0763317",
-    "description": "Paris baguette"
+    'src': 'http://picsum.photos/300/200?r=0.0763317',
+    'description': 'Paris baguette'
   },
 ];
 
-export const generateDestination = (id) => {
-  return {
-    id,
-    "description": generateDescription(),
-    "name": generateCityName(),
-    "pictures": shuffle([0, 1, 2, 3])
-  };
-};
+export const generateDestination = (id) => ({
+  id,
+  'description': generateDescription(),
+  'name': generateCityName(),
+  'pictures': shuffle([0, 1, 2, 3])
+});

@@ -8,8 +8,8 @@ export default class PointModel {
   editPoint = generatePoint();
 
   points = Array.from({length: POINTS_COUNT}, generatePoint);
-  offers = Array.from({length: POINTS_COUNT}, (_value, key) => generateOffer(key + 1))
-  destinations = Array.from({length: POINTS_COUNT}, (_value, key) => generateDestination(key + 1))
+  offers = Array.from({length: POINTS_COUNT}, (_value, key) => generateOffer(key + 1));
+  destinations = Array.from({length: POINTS_COUNT}, (_value, key) => generateDestination(key + 1));
 
   getPoints = () => this.points;
 
@@ -17,8 +17,8 @@ export default class PointModel {
     this.offers.find((offer) => offer.id === offerId)
   );
 
-  getPointDestination = (point) => {
-    return this.destinations.find((destination) =>
+  getPointDestination = (point) => (
+    this.destinations.find((destination) =>
       point.destination === destination.id)
-  };
+  );
 }
