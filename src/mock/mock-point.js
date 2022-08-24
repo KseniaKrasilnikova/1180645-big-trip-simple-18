@@ -1,4 +1,4 @@
-import {getRandomInteger, shuffle} from '../utils';
+import {generateArray, getRandomInteger} from '../utils';
 import dayjs from 'dayjs';
 import {OFFERS_TYPE, POINTS_COUNT} from '../const';
 
@@ -15,16 +15,6 @@ const generateDate = () => {
     .add(hourGap, 'hour')
     .set('minute', minuteGap)
     .toDate();
-};
-
-const generateArray = () => {
-  const array = Array.from({length: POINTS_COUNT}, (_value, key) => key + 1);
-  const shuffledArray = shuffle(array);
-  const arrayLength = getRandomInteger(0, POINTS_COUNT - 5);
-  for (let i = 0; i < POINTS_COUNT; i++) {
-    array.push(i + 1);
-  }
-  return shuffledArray.slice(0, arrayLength);
 };
 
 export const generatePoint = () => ({

@@ -2,21 +2,24 @@ import {createElement} from '../render';
 import {pics} from '../mock/mock-destination';
 import {getDMYTFromDate} from '../utils';
 
-const AddNewPointViewTemplate = (point, offers, destinations) => {
+const AddNewPointViewTemplate = (point, offers, pointOffers, destinations) => {
   const {dateFrom, dateTo, type} = point;
   const {name, description, pictures} = destinations;
 
-  const generateOffersTemplate = (generatedOffers) => `
-    ${generatedOffers.map((offer) => `
+  const generateOffersTemplate = (allOffers, checkedOffersIds) => `
+    ${allOffers.map((offer) => {
+    const checkedOffer = checkedOffersIds.includes(offer.id) ? 'checked' : '';
+
+    return `
       <div class="event__offer-selector">
-        <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" checked>
+        <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" ${checkedOffer}>
         <label class="event__offer-label" for="event-offer-luggage-1">
           <span class="event__offer-title">${offer.title}</span>
             &plus;&euro;&nbsp;
           <span class="event__offer-price">${offer.price}</span>
         </label>
       </div>
-    `).join('')}
+    `;}).join('')}
   `;
 
   const renderPictures = (ids) => (
@@ -121,7 +124,7 @@ const AddNewPointViewTemplate = (point, offers, destinations) => {
         <section class="event__section  event__section--offers">
           <h3 class="event__section-title  event__section-title--offers">Offers</h3>
           <div class="event__available-offers">
-            ${generateOffersTemplate(offers)}
+            ${generateOffersTemplate(offers, pointOffers.map((offer) => offer.id ))}
         </section>
         <section class="event__section  event__section--destination">
           <h3 class="event__section-title  event__section-title--destination">Destination</h3>
@@ -139,14 +142,15 @@ const AddNewPointViewTemplate = (point, offers, destinations) => {
 };
 
 export default class AddNewPointView {
-  constructor(point, offers, destinations) {
+  constructor(point, offers, pointOffers, destinations) {
     this.point = point;
     this.offers = offers;
+    this.pointOffers = pointOffers;
     this.destination = destinations;
   }
 
   getTemplate() {
-    return AddNewPointViewTemplate(this.point, this.offers, this.destination);
+    return AddNewPointViewTemplate(this.point, this.offers, this.pointOffers, this.destination);
   }
 
   getElement() {

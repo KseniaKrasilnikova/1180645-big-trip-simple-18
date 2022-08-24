@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import {POINTS_COUNT} from './const';
 
 // Функция из интернета по генерации случайного числа из диапазона
 // Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_random
@@ -25,8 +26,19 @@ function shuffle(array) {
   return array;
 }
 
+const generateArray = () => {
+  const array = Array.from({length: POINTS_COUNT}, (_value, key) => key + 1);
+  const shuffledArray = shuffle(array);
+  const arrayLength = getRandomInteger(0, POINTS_COUNT - 5);
+  for (let i = 0; i < POINTS_COUNT; i++) {
+    array.push(i + 1);
+  }
+  return shuffledArray.slice(0, arrayLength);
+};
+
 export {
   getRandomInteger,
+  generateArray,
   getDayFromDate,
   getTimeFromDate,
   getYyyyMmDdTFromDate,

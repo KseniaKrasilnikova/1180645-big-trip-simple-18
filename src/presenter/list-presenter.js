@@ -22,6 +22,7 @@ export default class ListPresenter {
 
     render(new AddNewPointView(
       this.pointsModel.addPoint,
+      this.pointsModel.offers,
       this.pointsModel.getPointOffers(this.pointsModel.addPoint),
       this.pointsModel.getPointDestination(this.pointsModel.addPoint)
     ), this.pointsList.getElement());
