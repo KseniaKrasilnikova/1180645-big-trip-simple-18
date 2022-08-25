@@ -6,34 +6,37 @@ import {render} from '../render';
 import PointModel from '../model/point-model';
 
 export default class ListPresenter {
-  pointsList = new ListView();
+  #pointsList = new ListView();
+  #listContainer = null;
+  #pointsModel = null;
+  #points = [];
 
   init = (listContainer) => {
-    this.listContainer = listContainer;
-    this.pointsModel = new PointModel(); // создаем новый объект из класса
-    this.points = this.pointsModel.getPoints(); // вызываем-создаем все поинты, к-ые мы нагенерировали
+    this.#listContainer = listContainer;
+    this.#pointsModel = new PointModel(); // создаем новый объект из класса
+    this.#points = [...this.#pointsModel.points]; // вызываем-создаем все поинты, к-ые мы нагенерировали
 
-    render(this.pointsList, this.listContainer);
-    render(new EditPointView(
-      this.pointsModel.editPoint,
-      this.pointsModel.getPointOffers(this.pointsModel.editPoint),
-      this.pointsModel.getPointDestination(this.pointsModel.editPoint)
-    ), this.pointsList.getElement());
+    render(this.#pointsList, this.#listContainer);
+    // render(new EditPointView(
+    //   this.#pointsModel.editPoint,
+    //   this.#pointsModel.getPointOffers(this.#pointsModel.editPoint),
+    //   this.#pointsModel.getPointDestination(this.#pointsModel.editPoint)
+    // ), this.#pointsList.element);
 
     render(new AddNewPointView(
-      this.pointsModel.addPoint,
-      this.pointsModel.offers,
-      this.pointsModel.getPointOffers(this.pointsModel.addPoint),
-      this.pointsModel.getPointDestination(this.pointsModel.addPoint)
-    ), this.pointsList.getElement());
+      this.#pointsModel.addPoint,
+      this.#pointsModel.offers,
+      this.#pointsModel.getPointOffers(this.#pointsModel.addPoint),
+      this.#pointsModel.getPointDestination(this.#pointsModel.addPoint)
+    ), this.#pointsList.element);
 
-    for (let i = 0; i < this.points.length; i++) {
+    for (let i = 0; i < this.#points.length; i++) {
       render(
         new PointView (
-          this.points[i],
-          this.pointsModel.getPointOffers(this.points[i]),
-          this.pointsModel.getPointDestination(this.points[i])
-        ), this.pointsList.getElement()
+          this.#points[i],
+          this.#pointsModel.getPointOffers(this.#points[i]),
+          this.#pointsModel.getPointDestination(this.#points[i])
+        ), this.#pointsList.element
       );
     }
   };

@@ -1,6 +1,6 @@
 import {createElement} from '../render';
 import {pics} from '../mock/mock-destination';
-import {getDMYTFromDate} from '../utils';
+import {getDMYTFromDate, generateOffersTemplate} from '../utils';
 
 const AddNewPointViewTemplate = (point, offers, pointOffers, destinations) => {
   const {dateFrom, dateTo, type} = point;
@@ -142,26 +142,32 @@ const AddNewPointViewTemplate = (point, offers, pointOffers, destinations) => {
 };
 
 export default class AddNewPointView {
+  #element = null;
+  #point = null;
+  #offers = null;
+  #pointOffers = null;
+  #destinations = null;
+
   constructor(point, offers, pointOffers, destinations) {
-    this.point = point;
-    this.offers = offers;
-    this.pointOffers = pointOffers;
-    this.destination = destinations;
+    this.#point = point;
+    this.#offers = offers;
+    this.#pointOffers = pointOffers;
+    this.#destinations = destinations;
   }
 
-  getTemplate() {
-    return AddNewPointViewTemplate(this.point, this.offers, this.pointOffers, this.destination);
+  get template() {
+    return AddNewPointViewTemplate(this.#point, this.#offers, this.#pointOffers, this.#destinations);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
     }
 
-    return this.element;
+    return this.#element;
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
 }
