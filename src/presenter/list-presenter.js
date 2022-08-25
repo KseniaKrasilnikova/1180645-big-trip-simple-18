@@ -8,7 +8,7 @@ import PointModel from '../model/point-model';
 export default class ListPresenter {
   #pointsList = new ListView();
   #listContainer = null;
-  #pointsModel = null;
+  #pointsModel = new PointModel;
   #points = [];
 
   init = (listContainer) => {
@@ -31,13 +31,24 @@ export default class ListPresenter {
     ), this.#pointsList.element);
 
     for (let i = 0; i < this.#points.length; i++) {
-      render(
-        new PointView (
-          this.#points[i],
-          this.#pointsModel.getPointOffers(this.#points[i]),
-          this.#pointsModel.getPointDestination(this.#points[i])
-        ), this.#pointsList.element
-      );
+      this.#renderPoint(this.#points[i]); // отрисовали все карточки
+      // render(
+      //   new PointView (
+      //     this.#points[i],
+      //     this.#pointsModel.getPointOffers(this.#points[i]),
+      //     this.#pointsModel.getPointDestination(this.#points[i])
+      //   ), this.#pointsList.element
+      // );
     }
   };
+
+  #renderPoint = (point) => {
+    const pointComponent = new PointView( // создает экземпляр PointView
+      point,
+      this.#pointsModel.getPointOffers(point),
+      this.#pointsModel.getPointDestination(point)
+    );
+
+    render(pointComponent, this.#pointsList.element); // отрисовывает в нужное место
+  }
 }
