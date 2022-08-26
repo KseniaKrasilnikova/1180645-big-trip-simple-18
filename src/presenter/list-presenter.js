@@ -1,6 +1,6 @@
 import {render} from '../render';
 import PointModel from '../model/point-model';
-import AddNewPointView from '../view/add-new-point-view';
+// import AddNewPointView from '../view/add-new-point-view';
 import EditPointView from '../view/edit-point-view';
 import ListView from '../view/list-view';
 import PointView from '../view/point-view';
@@ -30,12 +30,12 @@ export default class ListPresenter {
       for (let i = 0; i < this.#points.length; i++) {
         this.#renderPoint(this.#points[i]); // отрисовали все карточки
       }
-      render(new AddNewPointView (
-        this.#pointsModel.addPoint,
-        this.#pointsModel.offers,
-        this.#pointsModel.getPointOffers(this.#pointsModel.addPoint),
-        this.#pointsModel.getPointDestination(this.#pointsModel.addPoint)
-      ), this.#pointsList.element);
+      // render(new AddNewPointView (
+      //   this.#pointsModel.addPoint,
+      //   this.#pointsModel.offers,
+      //   this.#pointsModel.getPointOffers(this.#pointsModel.addPoint),
+      //   this.#pointsModel.getPointDestination(this.#pointsModel.addPoint)
+      // ), this.#pointsList.element);
     }
   };
 
@@ -47,7 +47,7 @@ export default class ListPresenter {
     );
 
     const editPointComponent = new EditPointView( // создает (заранее) экземпляр EditPointView
-      point, // this.#pointsModel.editPoint,
+      point,
       this.#pointsModel.getPointOffers(point),
       this.#pointsModel.getPointDestination(point)
     );
