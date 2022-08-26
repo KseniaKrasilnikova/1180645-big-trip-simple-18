@@ -23,7 +23,7 @@ export default class ListPresenter {
     //   this.#pointsModel.getPointDestination(this.#pointsModel.editPoint)
     // ), this.#pointsList.element);
 
-    render(new AddNewPointView(
+    render(new AddNewPointView (
       this.#pointsModel.addPoint,
       this.#pointsModel.offers,
       this.#pointsModel.getPointOffers(this.#pointsModel.addPoint),
@@ -48,6 +48,46 @@ export default class ListPresenter {
       this.#pointsModel.getPointOffers(point),
       this.#pointsModel.getPointDestination(point)
     );
+
+    const editPointComponent = new EditPointView( // создает (заранее) экземпляр EditPointView
+      point, // this.#pointsModel.editPoint,
+      this.#pointsModel.getPointOffers(point),
+      this.#pointsModel.getPointDestination(point)
+    );
+
+    const replacePointToEditForm = () => {
+      this.#pointsList.element.replaceChild(editPointComponent.element, pointComponent.element);
+    };
+
+    const replaceEditFormToPoint = () => {
+      this.#pointsList.element.replaceChild(pointComponent.element, editPointComponent.element);
+    };
+
+    const onEscKeyDown = (evt) => {
+      if (evt.key === 'Escape' || evt.key === 'Esc') {
+        evt.preventDefault();
+        replaceEditFormToPoint();
+        document.removeEventListener('keydown', onEscKeyDown);
+      }
+    };
+
+
+
+
+    pointComponent.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
+      replacePointToEditForm();
+      document.addEventListener('keydown', onEscKeyDown);
+    });
+
+    editPointComponent.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
+      replaceEditFormToPoint();
+    });
+
+    editPointComponent.element.querySelector('form').addEventListener('submit', (evt) => {
+      evt.preventDefault();
+      replaceEditFormToPoint();
+      document.removeEventListener('keydown', onEscKeyDown);
+    });
 
     render(pointComponent, this.#pointsList.element); // отрисовывает в нужное место
   }
