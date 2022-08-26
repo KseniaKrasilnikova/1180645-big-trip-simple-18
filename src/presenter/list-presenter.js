@@ -1,11 +1,16 @@
-import AddNewPointView from '../view/add-new-point-view.js';
-import EditPointView from '../view/edit-point-view.js';
-import ListView from '../view/list-view.js';
-import PointView from '../view/point-view.js';
 import {render} from '../render';
 import PointModel from '../model/point-model';
+import AddNewPointView from '../view/add-new-point-view';
+import EditPointView from '../view/edit-point-view';
+import ListView from '../view/list-view';
+import PointView from '../view/point-view';
+import NoPointsView from '../view/no-points-view';
+import SortView from '../view/sort-view.js';
+
+const siteTripEventsElement = document.querySelector('.trip-events');
 
 export default class ListPresenter {
+  #sortView = new SortView();
   #pointsList = new ListView();
   #listContainer = null;
   #pointsModel = new PointModel;
@@ -16,29 +21,22 @@ export default class ListPresenter {
     this.#pointsModel = new PointModel(); // создаем новый объект из класса
     this.#points = [...this.#pointsModel.points]; // вызываем-создаем все поинты, к-ые мы нагенерировали
 
-    render(this.#pointsList, this.#listContainer);
-    // render(new EditPointView(
-    //   this.#pointsModel.editPoint,
-    //   this.#pointsModel.getPointOffers(this.#pointsModel.editPoint),
-    //   this.#pointsModel.getPointDestination(this.#pointsModel.editPoint)
-    // ), this.#pointsList.element);
+    if (this.#points.length === 0) {
+      render(new NoPointsView(), this.#listContainer);
+    } else {
+      render(this.#sortView, siteTripEventsElement);
+      render(this.#pointsList, this.#listContainer);
 
-    render(new AddNewPointView (
-      this.#pointsModel.addPoint,
-      this.#pointsModel.offers,
-      this.#pointsModel.getPointOffers(this.#pointsModel.addPoint),
-      this.#pointsModel.getPointDestination(this.#pointsModel.addPoint)
-    ), this.#pointsList.element);
+      // render(new AddNewPointView (
+      //   this.#pointsModel.addPoint,
+      //   this.#pointsModel.offers,
+      //   this.#pointsModel.getPointOffers(this.#pointsModel.addPoint),
+      //   this.#pointsModel.getPointDestination(this.#pointsModel.addPoint)
+      // ), this.#pointsList.element);
 
-    for (let i = 0; i < this.#points.length; i++) {
-      this.#renderPoint(this.#points[i]); // отрисовали все карточки
-      // render(
-      //   new PointView (
-      //     this.#points[i],
-      //     this.#pointsModel.getPointOffers(this.#points[i]),
-      //     this.#pointsModel.getPointDestination(this.#points[i])
-      //   ), this.#pointsList.element
-      // );
+      for (let i = 0; i < this.#points.length; i++) {
+        this.#renderPoint(this.#points[i]); // отрисовали все карточки
+      }
     }
   };
 
