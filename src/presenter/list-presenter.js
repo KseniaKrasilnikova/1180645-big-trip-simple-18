@@ -27,16 +27,15 @@ export default class ListPresenter {
       render(this.#sortView, siteTripEventsElement);
       render(this.#pointsList, this.#listContainer);
 
-      // render(new AddNewPointView (
-      //   this.#pointsModel.addPoint,
-      //   this.#pointsModel.offers,
-      //   this.#pointsModel.getPointOffers(this.#pointsModel.addPoint),
-      //   this.#pointsModel.getPointDestination(this.#pointsModel.addPoint)
-      // ), this.#pointsList.element);
-
       for (let i = 0; i < this.#points.length; i++) {
         this.#renderPoint(this.#points[i]); // отрисовали все карточки
       }
+      render(new AddNewPointView (
+        this.#pointsModel.addPoint,
+        this.#pointsModel.offers,
+        this.#pointsModel.getPointOffers(this.#pointsModel.addPoint),
+        this.#pointsModel.getPointDestination(this.#pointsModel.addPoint)
+      ), this.#pointsList.element);
     }
   };
 
