@@ -71,9 +71,6 @@ export default class ListPresenter {
       }
     };
 
-
-
-
     pointComponent.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
       replacePointToEditForm();
       document.addEventListener('keydown', onEscKeyDown);
@@ -90,5 +87,5 @@ export default class ListPresenter {
     });
 
     render(pointComponent, this.#pointsList.element); // отрисовывает в нужное место
-  }
+  };
 }

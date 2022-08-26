@@ -1,6 +1,6 @@
 import {createElement} from '../render';
 import {pics} from '../mock/mock-destination';
-import {getDMYTFromDate, generateOffersTemplate} from '../utils';
+import {getDMYTFromDate} from '../utils';
 
 const AddNewPointViewTemplate = (point, offers, pointOffers, destinations) => {
   const {dateFrom, dateTo, type} = point;
