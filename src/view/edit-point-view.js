@@ -1,4 +1,4 @@
-import {createElement} from '../render';
+import AbstractView from '../framework/view/abstract-view.js';
 import {getDMYTFromDate} from '../utils';
 
 const createEditPointTemplate = (point, offers, destinations) => {
@@ -132,10 +132,9 @@ const createEditPointTemplate = (point, offers, destinations) => {
   );
 };
 
-export default class EditPointView {
-  #element = null;
-
+export default class EditPointView extends AbstractView {
   constructor(point, offers, destinations) {
+    super();
     this.point = point;
     this.offers = offers;
     this.destination = destinations;
@@ -143,17 +142,5 @@ export default class EditPointView {
 
   get template() {
     return createEditPointTemplate(this.point, this.offers, this.destination);
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }
