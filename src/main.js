@@ -1,5 +1,5 @@
 import FilterView from './view/filter-view.js';
-import {render} from './render';
+import {render} from './framework/render';
 import ListPresenter from './presenter/list-presenter.js';
 import PointModel from './model/point-model.js';
 
