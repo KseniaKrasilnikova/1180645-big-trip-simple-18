@@ -4,8 +4,7 @@ import {generateDestination} from '../mock/mock-destination';
 import {POINTS_COUNT} from '../const';
 
 export default class PointModel {
-  addPoint = generatePoint();
-  #editPoint = generatePoint();
+  #addPoint = generatePoint();
 
   #points = Array.from({length: POINTS_COUNT}, generatePoint);
   #offers = Array.from({length: POINTS_COUNT}, (_value, key) => generateOffer(key + 1));
@@ -15,16 +14,12 @@ export default class PointModel {
     return this.#points;
   }
 
-  get editPoint() {
-    return this.#editPoint;
+  get addPoint() {
+    return this.#addPoint;
   }
 
   get offers() {
     return this.#offers;
-  }
-
-  get destinations() {
-    return this.#destinations;
   }
 
   getPointOffers = (point) => point.offers.map((offerId) =>

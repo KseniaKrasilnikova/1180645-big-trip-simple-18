@@ -1,5 +1,5 @@
-import {createElement} from '../render';
-import {getDMYTFromDate} from '../utils';
+import AbstractView from '../framework/view/abstract-view.js';
+import {getDMYTFromDate} from '../utils/point-utils';
 
 const createEditPointTemplate = (point, offers, destinations) => {
   const {dateFrom, dateTo, type, basePrice} = point;
@@ -132,10 +132,9 @@ const createEditPointTemplate = (point, offers, destinations) => {
   );
 };
 
-export default class EditPointView {
-  #element = null;
-
+export default class EditPointView extends AbstractView {
   constructor(point, offers, destinations) {
+    super();
     this.point = point;
     this.offers = offers;
     this.destination = destinations;
@@ -145,15 +144,23 @@ export default class EditPointView {
     return createEditPointTemplate(this.point, this.offers, this.destination);
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
+  setClickHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#clickHandler);
+  };
 
-    return this.#element;
-  }
+  #clickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.click();
+  };
 
-  removeElement() {
-    this.#element = null;
-  }
+  setFormSubmitHandler = (callback) => {
+    this._callback.formSubmit = callback;
+    this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
+  };
+
+  #formSubmitHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.formSubmit();
+  };
 }
