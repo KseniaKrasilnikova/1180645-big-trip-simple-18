@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import {getRandomInteger} from '../utils/common';
+import {getRandomInteger} from './common';
 import {POINTS_COUNT} from '../const';
 
 const getDayFromDate = (date) => dayjs(date).format('D MMM');
