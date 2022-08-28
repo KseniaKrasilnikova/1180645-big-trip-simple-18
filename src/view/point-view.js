@@ -1,4 +1,4 @@
-import {getDayFromDate, getTimeFromDate, getYyyyMmDdTFromDate} from '../utils';
+import {getDayFromDate, getTimeFromDate, getYyyyMmDdTFromDate} from '../utils/point-utils';
 import AbstractView from '../framework/view/abstract-view.js';
 
 const createPointViewTemplate = (point, offers, destinations) => {

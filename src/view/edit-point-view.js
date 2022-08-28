@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import {getDMYTFromDate} from '../utils';
+import {getDMYTFromDate} from '../utils/point-utils';
 
 const createEditPointTemplate = (point, offers, destinations) => {
   const {dateFrom, dateTo, type, basePrice} = point;

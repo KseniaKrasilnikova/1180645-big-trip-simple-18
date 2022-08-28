@@ -1,6 +1,6 @@
 import AbstractView from '../framework/view/abstract-view.js';
 import {pics} from '../mock/mock-destination';
-import {getDMYTFromDate} from '../utils';
+import {getDMYTFromDate} from '../utils/point-utils';
 
 const AddNewPointViewTemplate = (point, offers, pointOffers, destinations) => {
   const {dateFrom, dateTo, type} = point;

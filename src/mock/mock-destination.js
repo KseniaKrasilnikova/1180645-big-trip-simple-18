@@ -1,4 +1,5 @@
-import {getRandomInteger, shuffle} from '../utils.js';
+import {getRandomInteger} from '../utils/common';
+import {shuffle} from '../utils/point-utils';
 
 const generateDescription = () => {
   const descriptions = [

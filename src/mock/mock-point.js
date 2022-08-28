@@ -1,4 +1,5 @@
-import {generateArray, getRandomInteger} from '../utils';
+import {getRandomInteger} from '../utils/common';
+import {generateArray} from '../utils/point-utils';
 import dayjs from 'dayjs';
 import {OFFERS_TYPE, POINTS_COUNT} from '../const';
 
