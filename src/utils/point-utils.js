@@ -28,11 +28,14 @@ const generateArray = () => {
   return shuffledArray.slice(0, arrayLength);
 };
 
+const isFutureEvent = (date) => date && dayjs(date).isAfter(dayjs(), 'minute');
+
 export {
   generateArray,
   getDayFromDate,
   getTimeFromDate,
   getYyyyMmDdTFromDate,
   getDMYTFromDate,
-  shuffle
+  shuffle,
+  isFutureEvent
 };

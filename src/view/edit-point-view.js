@@ -133,15 +133,19 @@ const createEditPointTemplate = (point, offers, destinations) => {
 };
 
 export default class EditPointView extends AbstractView {
+  #point = null;
+  #offers = null;
+  #destination = null;
+
   constructor(point, offers, destinations) {
     super();
-    this.point = point;
-    this.offers = offers;
-    this.destination = destinations;
+    this.#point = point;
+    this.#offers = offers;
+    this.#destination = destinations;
   }
 
   get template() {
-    return createEditPointTemplate(this.point, this.offers, this.destination);
+    return createEditPointTemplate(this.#point, this.#offers, this.#destination);
   }
 
   setClickHandler = (callback) => {
