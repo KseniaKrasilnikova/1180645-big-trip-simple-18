@@ -1,11 +1,11 @@
 import AbstractView from '../framework/view/abstract-view.js';
 
 const createFilterTemplate = (filterTypes) => {
-  const generateFilterTemplate = (filterTypes) => `
-    ${Object.entries(filterTypes).map(([key, value]) => `
+  const generateFilterTemplate = (types) => `
+    ${Object.entries(types).map(([key, value]) => `
       <div class="trip-filters__filter">
-        <input id="filter-everything" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="everything">
-        <label class="trip-filters__filter-label" for="filter-everything">${value}</label>
+        <input id="filter-${key.toLowerCase()}" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="${value.toLowerCase()}">
+        <label class="trip-filters__filter-label" for="filter-${key.toLowerCase()}">${value}</label>
       </div>
     `).join('')}
   `;

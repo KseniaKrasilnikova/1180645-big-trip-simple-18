@@ -3,4 +3,4 @@ export const OFFERS_TYPE = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', '
 export const FilterType = {
   ALL: 'Everything',
   FUTURE: 'Future'
-}
+};
