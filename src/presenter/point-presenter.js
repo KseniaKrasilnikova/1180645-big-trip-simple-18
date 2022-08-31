@@ -1,4 +1,4 @@
-import {render} from '../framework/render';
+import {render, replace} from '../framework/render';
 import EditPointView from '../view/edit-point-view';
 import PointView from '../view/point-view';
 
@@ -6,6 +6,8 @@ export default class PointPresenter {
   #point = null;
   #offers = null;
   #destination = null;
+  #editPointComponent;
+  #pointComponent;
 
   constructor(point, offers, destination) {
     this.#point = point;
@@ -14,48 +16,48 @@ export default class PointPresenter {
   }
 
   init = (container) => {
+    this.#pointComponent = new PointView( // создает экземпляр PointView
+      this.#point,
+      this.#offers,
+      this.#destination,
+    );
+
+    this.#editPointComponent = new EditPointView(
+      this.#point,
+      this.#offers,
+      this.#destination
+    );
+
     this.#renderPoint(container); // отрисовали все карточки
+    this.#pointComponent.setClickHandler(this.#replacePointToEditForm);
+    this.#editPointComponent.setClickHandler(this.#replaceEditFormToPoint);
+    this.#editPointComponent.setFormSubmitHandler(this.#handleFormSubmit);
+  };
+
+  #replacePointToEditForm = () => {
+    replace(this.#editPointComponent, this.#pointComponent);
+    document.addEventListener('keydown', this.#escKeyDownHandler);
+  }
+
+  #replaceEditFormToPoint = () => {
+    replace(this.#pointComponent, this.#editPointComponent);
+  }
+
+  #handleFormSubmit = (evt) => {
+    evt.preventDefault();
+    this.#replaceEditFormToPoint();
+    document.removeEventListener('keydown', this.#escKeyDownHandler);
+  }
+
+  #escKeyDownHandler = (evt) => {
+    if (evt.key === 'Escape' || evt.key === 'Esc') {
+      evt.preventDefault();
+      this.#replaceEditFormToPoint();
+      document.removeEventListener('keydown', this.#escKeyDownHandler);
+    }
   };
 
   #renderPoint = (container) => {
-    const pointComponent = new PointView( // создает экземпляр PointView
-      this.#point,
-      this.#offers,
-      this.#destination
-    );
-
-    const editPointComponent = new EditPointView(
-      this.#point,
-      this.#offers,
-      this.#destination
-    );
-
-    const replacePointToEditForm = () => {
-      container.replaceChild(editPointComponent.element, pointComponent.element);
-    };
-    const replaceEditFormToPoint = () => {
-      container.replaceChild(pointComponent.element, editPointComponent.element);
-    };
-    const onEscKeyDown = (evt) => {
-      if (evt.key === 'Escape' || evt.key === 'Esc') {
-        evt.preventDefault();
-        replaceEditFormToPoint();
-        document.removeEventListener('keydown', onEscKeyDown);
-      }
-    };
-    pointComponent.setClickHandler(() => {
-      replacePointToEditForm();
-      document.addEventListener('keydown', onEscKeyDown);
-    });
-    editPointComponent.setClickHandler(() => {
-      replaceEditFormToPoint();
-    });
-    editPointComponent.setFormSubmitHandler((evt) => {
-      evt.preventDefault();
-      replaceEditFormToPoint();
-      document.removeEventListener('keydown', onEscKeyDown);
-    });
-
-    render(pointComponent, container); // отрисовывает в нужное место
+    render(this.#pointComponent, container); // отрисовывает в нужное место
   };
 }
