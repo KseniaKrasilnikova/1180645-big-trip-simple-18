@@ -1,11 +1,10 @@
-import {render} from '../framework/render';
+import {render, RenderPosition} from '../framework/render';
 import PointModel from '../model/point-model';
 import AddNewPointView from '../view/add-new-point-view';
-import EditPointView from '../view/edit-point-view';
 import ListView from '../view/list-view';
-import PointView from '../view/point-view';
 import NoPointsView from '../view/no-points-view';
 import SortView from '../view/sort-view.js';
+import PointPresenter from './point-presenter';
 
 const siteTripEventsElement = document.querySelector('.trip-events');
 
@@ -15,73 +14,61 @@ export default class ListPresenter {
   #listContainer = null;
   #pointsModel = new PointModel();
   #points = [];
+  #noPointsComponent = new NoPointsView();
+  #siteTripEventsElement = null;
+  #pointsPresenters = [];
 
   init = (listContainer) => {
     this.#listContainer = listContainer;
+    this.#siteTripEventsElement = siteTripEventsElement;
     this.#points = [...this.#pointsModel.points]; // вызываем-создаем все поинты, к-ые мы нагенерировали
 
     if (this.#points.length === 0) {
-      render(new NoPointsView(), this.#listContainer);
+      this.#renderNoPoints();
     } else {
-      render(this.#sortView, siteTripEventsElement);
-      render(this.#pointsList, this.#listContainer);
+      this.#renderSortView();
+      this.#renderList();
 
       for (let i = 0; i < this.#points.length; i++) {
-        this.#renderPoint(this.#points[i]); // отрисовали все карточки
+        const point = this.#points[i];
+        const pointPresenter = new PointPresenter(
+          point,
+          this.#pointsModel.getPointOffers(point),
+          this.#pointsModel.getPointDestination(point),
+          this.#handleModeChange
+        );
+        pointPresenter.init(this.#pointsList.element);
+        this.#pointsPresenters.push(pointPresenter);
       }
-      render(new AddNewPointView (
-        this.#pointsModel.addPoint,
-        this.#pointsModel.offers,
-        this.#pointsModel.getPointOffers(this.#pointsModel.addPoint),
-        this.#pointsModel.getPointDestination(this.#pointsModel.addPoint)
-      ), this.#pointsList.element);
+
+      this.#renderAddNewPoint(this.#pointsModel.addPoint);
     }
   };
 
-  #renderPoint = (point) => {
-    const pointComponent = new PointView( // создает экземпляр PointView
+  #handleModeChange = () => {
+    this.#pointsPresenters.forEach((presenter) => presenter.resetView());
+  };
+
+  #renderNoPoints = () => {
+    render(this.#noPointsComponent, this.#listContainer, RenderPosition.AFTERBEGIN);
+  };
+
+  #renderSortView = () => {
+    render(this.#sortView, this.#siteTripEventsElement, RenderPosition.AFTERBEGIN);
+  };
+
+  #renderList = () => {
+    render(this.#pointsList, this.#listContainer, RenderPosition.BEFOREEND);
+  };
+
+  #renderAddNewPoint = (point) => {
+    const addNewPointComponent = new AddNewPointView( // создает экземпляр AddNewPointView
       point,
+      this.#pointsModel.offers,
       this.#pointsModel.getPointOffers(point),
       this.#pointsModel.getPointDestination(point)
     );
 
-    const editPointComponent = new EditPointView( // создает (заранее) экземпляр EditPointView
-      point,
-      this.#pointsModel.getPointOffers(point),
-      this.#pointsModel.getPointDestination(point)
-    );
-
-    const replacePointToEditForm = () => {
-      this.#pointsList.element.replaceChild(editPointComponent.element, pointComponent.element);
-    };
-
-    const replaceEditFormToPoint = () => {
-      this.#pointsList.element.replaceChild(pointComponent.element, editPointComponent.element);
-    };
-
-    const onEscKeyDown = (evt) => {
-      if (evt.key === 'Escape' || evt.key === 'Esc') {
-        evt.preventDefault();
-        replaceEditFormToPoint();
-        document.removeEventListener('keydown', onEscKeyDown);
-      }
-    };
-
-    pointComponent.setClickHandler(() => {
-      replacePointToEditForm();
-      document.addEventListener('keydown', onEscKeyDown);
-    });
-
-    editPointComponent.setClickHandler(() => {
-      replaceEditFormToPoint();
-    });
-
-    editPointComponent.setFormSubmitHandler((evt) => {
-      evt.preventDefault();
-      replaceEditFormToPoint();
-      document.removeEventListener('keydown', onEscKeyDown);
-    });
-
-    render(pointComponent, this.#pointsList.element); // отрисовывает в нужное место
+    render(addNewPointComponent, this.#pointsList.element); // отрисовывает в нужное место
   };
 }
