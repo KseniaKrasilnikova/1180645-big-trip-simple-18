@@ -16,6 +16,7 @@ export default class ListPresenter {
   #points = [];
   #noPointsComponent = new NoPointsView();
   #siteTripEventsElement = null;
+  #pointsPresenters = [];
 
   init = (listContainer) => {
     this.#listContainer = listContainer;
@@ -27,28 +28,39 @@ export default class ListPresenter {
     } else {
       this.#renderSortView();
       this.#renderList();
+
       for (let i = 0; i < this.#points.length; i++) {
-        const point = this.#points[i]
+        const point = this.#points[i];
         const pointPresenter = new PointPresenter(
           point,
           this.#pointsModel.getPointOffers(point),
-          this.#pointsModel.getPointDestination(point)
+          this.#pointsModel.getPointDestination(point),
+          this.#handleModeChange
         );
         pointPresenter.init(this.#pointsList.element);
+        this.#pointsPresenters.push(pointPresenter);
       }
+
       this.#renderAddNewPoint(this.#pointsModel.addPoint);
     }
+  };
+
+  #handleModeChange = () => {
+    this.#pointsPresenters.forEach((presenter) => presenter.resetView());
   };
 
   #renderNoPoints = () => {
     render(this.#noPointsComponent, this.#listContainer, RenderPosition.AFTERBEGIN);
   };
+
   #renderSortView = () => {
     render(this.#sortView, this.#siteTripEventsElement, RenderPosition.AFTERBEGIN);
   };
+
   #renderList = () => {
     render(this.#pointsList, this.#listContainer, RenderPosition.BEFOREEND);
   };
+
   #renderAddNewPoint = (point) => {
     const addNewPointComponent = new AddNewPointView( // создает экземпляр AddNewPointView
       point,
