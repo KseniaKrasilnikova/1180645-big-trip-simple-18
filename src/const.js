@@ -4,3 +4,11 @@ export const FilterType = {
   ALL: 'Everything',
   FUTURE: 'Future'
 };
+export const SortType = {
+  DEFAULT: 'default',
+  DATE: 'date',
+  EVENT: 'event',
+  TIME: 'time',
+  PRICE: 'price',
+  OFFER: 'offer',
+};
