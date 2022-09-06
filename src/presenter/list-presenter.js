@@ -5,7 +5,7 @@ import ListView from '../view/list-view';
 import NoPointsView from '../view/no-points-view';
 import SortView from '../view/sort-view.js';
 import PointPresenter from './point-presenter';
-import {updateItem, sortPointDown, sortPointByPrice} from '../utils/point-utils';
+import {sortPointDown, sortPointByPrice} from '../utils/point-utils';
 import {SortType} from '../const';
 
 
