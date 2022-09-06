@@ -40,13 +40,13 @@ export default class SortView extends AbstractView {
     this.element.addEventListener('click', this.#sortTypeChangeHandler);
   };
 
-  #sortTypeChangeHandler = (evt) => {
+  #sortTypeChangeHandler = (evt) => { // обработчик события клик
     if (evt.target.tagName !== 'LABEL') {
       return;
     }
 
     evt.preventDefault();
-    this._callback.sortTypeChange(evt.target.dataset.sortType); // передаем обработчику тип сортировки, по к-ой кликают из  data-sort-type
+    this._callback.sortTypeChange(evt.target.dataset.sortType); // передаем обработчику тип сортировки, по к-ой кликают, из data-sort-type
   };
 }
 

@@ -1,4 +1,4 @@
-import {render, replace} from '../framework/render';
+import {remove, render, replace} from '../framework/render';
 import EditPointView from '../view/edit-point-view';
 import PointView from '../view/point-view';
 
@@ -46,6 +46,11 @@ export default class PointPresenter {
     this.#pointComponent.setClickHandler(this.#toEditingMode);
     this.#editPointComponent.setClickHandler(this.#toDefaultMode);
     this.#editPointComponent.setFormSubmitHandler(this.#handleFormSubmit);
+  };
+
+  destroy = () => {
+    remove(this.#pointComponent);
+    remove(this.#editPointComponent);
   };
 
   resetView = () => {

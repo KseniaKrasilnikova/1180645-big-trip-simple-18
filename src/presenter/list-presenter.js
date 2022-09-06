@@ -5,44 +5,34 @@ import ListView from '../view/list-view';
 import NoPointsView from '../view/no-points-view';
 import SortView from '../view/sort-view.js';
 import PointPresenter from './point-presenter';
+import {updateItem, sortPointDown, sortPointByPrice} from '../utils/point-utils';
+import {SortType} from '../const';
 
-const siteTripEventsElement = document.querySelector('.trip-events');
 
 export default class ListPresenter {
+
   #sortView = new SortView();
-  #pointsList = new ListView();
-  #listContainer = null;
+  #pointsListView = new ListView();
+  #noPointsComponentView = new NoPointsView();
+
+  #listContainerElement = null;
+
   #pointsModel = new PointModel();
+
   #points = [];
-  #noPointsComponent = new NoPointsView();
-  #siteTripEventsElement = null;
+  #sortedPoints = [];
+  /**
+   * @type {[PointPresenter]}
+   */
   #pointsPresenters = [];
+  #currentSortType = SortType.DEFAULT;
 
   init = (listContainer) => {
-    this.#listContainer = listContainer;
-    this.#siteTripEventsElement = siteTripEventsElement;
+    this.#listContainerElement = listContainer;
     this.#points = [...this.#pointsModel.points]; // вызываем-создаем все поинты, к-ые мы нагенерировали
+    this.#sortedPoints = this.#points;
 
-    if (this.#points.length === 0) {
-      this.#renderNoPoints();
-    } else {
-      this.#renderSortView();
-      this.#renderList();
-
-      for (let i = 0; i < this.#points.length; i++) {
-        const point = this.#points[i];
-        const pointPresenter = new PointPresenter(
-          point,
-          this.#pointsModel.getPointOffers(point),
-          this.#pointsModel.getPointDestination(point),
-          this.#handleModeChange
-        );
-        pointPresenter.init(this.#pointsList.element);
-        this.#pointsPresenters.push(pointPresenter);
-      }
-
-      this.#renderAddNewPoint(this.#pointsModel.addPoint);
-    }
+    this.#renderList(this.#sortedPoints);
   };
 
   #handleModeChange = () => {
@@ -50,15 +40,64 @@ export default class ListPresenter {
   };
 
   #renderNoPoints = () => {
-    render(this.#noPointsComponent, this.#listContainer, RenderPosition.AFTERBEGIN);
+    render(this.#noPointsComponentView, this.#listContainerElement, RenderPosition.AFTERBEGIN);
+  };
+
+  #handleSortTypeChange = (sortType) => {
+    if (this.#currentSortType === sortType) {
+      return;
+    }
+
+    this.#currentSortType = sortType;
+    this.#sortPoints(sortType);
+    this.#clearPointList();
+    this.#renderList(this.#sortedPoints);
+  };
+
+  #clearPointList = () => {
+    this.#pointsPresenters.forEach((presenter) => presenter.destroy());
+    this.#pointsPresenters = [];
+  };
+
+  #sortPoints = (sortType) => {
+    switch (sortType) {
+      case SortType.DAY:
+        this.#sortedPoints = this.#points.sort(sortPointDown);
+        break;
+      case SortType.PRICE:
+        this.#sortedPoints = this.#points.sort(sortPointByPrice);
+        break;
+      default:
+        this.#sortedPoints = this.#points;
+    }
   };
 
   #renderSortView = () => {
-    render(this.#sortView, this.#siteTripEventsElement, RenderPosition.AFTERBEGIN);
+    render(this.#sortView, this.#listContainerElement, RenderPosition.AFTERBEGIN);
+    this.#sortView.setSortTypeChangeHandler(this.#handleSortTypeChange); // в нашу вьюху через метод setSortTypeChangeHandler передаем ссылку на наш обработчик handleSortTypeChange
   };
 
-  #renderList = () => {
-    render(this.#pointsList, this.#listContainer, RenderPosition.BEFOREEND);
+  #renderList = (points) => {
+    if (points.length === 0) {
+      this.#renderNoPoints();
+    } else {
+      this.#renderSortView();
+      render(this.#pointsListView, this.#listContainerElement, RenderPosition.BEFOREEND);
+
+      for (let i = 0; i < points.length; i++) {
+        const point = this.#points[i];
+        const pointPresenter = new PointPresenter(
+          point,
+          this.#pointsModel.getPointOffers(point),
+          this.#pointsModel.getPointDestination(point),
+          this.#handleModeChange
+        );
+        pointPresenter.init(this.#pointsListView.element);
+        this.#pointsPresenters.push(pointPresenter);
+      }
+
+      // this.#renderAddNewPoint(this.#pointsModel.addPoint);
+    }
   };
 
   #renderAddNewPoint = (point) => {
@@ -69,6 +108,6 @@ export default class ListPresenter {
       this.#pointsModel.getPointDestination(point)
     );
 
-    render(addNewPointComponent, this.#pointsList.element); // отрисовывает в нужное место
+    render(addNewPointComponent, this.#pointsListView.element); // отрисовывает в нужное место
   };
 }
