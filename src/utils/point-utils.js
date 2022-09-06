@@ -30,6 +30,53 @@ const generateArray = () => {
 
 const isFutureEvent = (date) => date && dayjs(date).isAfter(dayjs(), 'minute');
 
+const updateItem = (items, update) => {
+  const index = items.findIndex((item) => item.id === update.id);
+
+  if (index === -1) {
+    return items;
+  }
+
+  return [
+    ...items.slice(0, index),
+    update,
+    ...items.slice(index + 1),
+  ];
+};
+
+// Функция помещает задачи без даты в конце списка,
+// возвращая нужный вес для колбэка sort
+const getWeightForNullDate = (dateA, dateB) => {
+  if (dateA === null && dateB === null) {
+    return 0;
+  }
+
+  if (dateA === null) {
+    return 1;
+  }
+
+  if (dateB === null) {
+    return -1;
+  }
+
+  return null;
+};
+
+// const sortPointUp = (pointA, pointB) => {
+//   const weight = getWeightForNullDate(pointA.date, pointB.date);
+//
+//   return weight ?? dayjs(pointA.date).diff(dayjs(pointB.date));
+// };
+
+const sortPointDown = (pointA, pointB) => {
+  const weight = getWeightForNullDate(pointA.dateFrom, pointB.dateFrom);
+
+  return weight ?? dayjs(pointB.dateFrom).diff(dayjs(pointA.dateFrom));
+};
+
+const sortPointByPrice = (pointA, pointB) => pointA.basePrice - pointB.basePrice;
+
+
 export {
   generateArray,
   getDayFromDate,
@@ -37,5 +84,9 @@ export {
   getYyyyMmDdTFromDate,
   getDMYTFromDate,
   shuffle,
-  isFutureEvent
+  isFutureEvent,
+  updateItem,
+  // sortPointUp,
+  sortPointDown,
+  sortPointByPrice
 };
