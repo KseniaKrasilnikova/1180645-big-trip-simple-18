@@ -90,13 +90,15 @@ export default class ListPresenter {
           point,
           this.#pointsModel.getPointOffers(point),
           this.#pointsModel.getPointDestination(point),
+          this.#pointsModel.destinations,
+          this.#pointsModel.pointTypes,
           this.#handleModeChange
         );
         pointPresenter.init(this.#pointsListView.element);
         this.#pointsPresenters.push(pointPresenter);
       }
 
-      // this.#renderAddNewPoint(this.#pointsModel.addPoint);
+      this.#renderAddNewPoint(this.#pointsModel.addPoint);
     }
   };
 

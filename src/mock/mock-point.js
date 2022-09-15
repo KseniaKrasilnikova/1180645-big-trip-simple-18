@@ -1,7 +1,7 @@
 import {getRandomInteger} from '../utils/common';
 import {generateArray} from '../utils/point-utils';
 import dayjs from 'dayjs';
-import {OFFERS_TYPE, POINTS_COUNT} from '../const';
+import {POINT_TYPES, POINTS_COUNT} from '../const';
 
 const generateDate = () => {
   const maxDaysGap = 50;
@@ -25,5 +25,5 @@ export const generatePoint = () => ({
   'destination': getRandomInteger(1, POINTS_COUNT),
   'id': getRandomInteger(0, 1000),
   'offers': generateArray(),
-  'type': OFFERS_TYPE[getRandomInteger(0, OFFERS_TYPE.length - 1)]
+  'type': POINT_TYPES[getRandomInteger(0, POINT_TYPES.length - 1)]
 });

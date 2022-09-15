@@ -58,3 +58,4 @@ export const generateDestination = (id) => ({
   'name': generateCityName(),
   'pictures': shuffle([0, 1, 2, 3])
 });
+

@@ -11,6 +11,8 @@ export default class PointPresenter {
   #point = null;
   #offers = null;
   #destination = null;
+  #allDestinations = null;
+  #pointTypes = null;
   #editPointComponent;
   /**
    * @type {PointView}
@@ -22,10 +24,12 @@ export default class PointPresenter {
   #editingListener = null;
   #mode = Mode.DEFAULT;
 
-  constructor(point, offers, destination, editingListener) {
+  constructor(point, offers, destination, allDestinations, pointTypes, editingListener) {
     this.#point = point;
     this.#offers = offers;
     this.#destination = destination;
+    this.#allDestinations = allDestinations;
+    this.#pointTypes = pointTypes;
     this.#editingListener = editingListener;
   }
 
@@ -39,7 +43,9 @@ export default class PointPresenter {
     this.#editPointComponent = new EditPointView(
       this.#point,
       this.#offers,
-      this.#destination
+      this.#destination,
+      this.#allDestinations,
+      this.#pointTypes
     );
 
     this.#renderPoint(container); // отрисовали все карточки
