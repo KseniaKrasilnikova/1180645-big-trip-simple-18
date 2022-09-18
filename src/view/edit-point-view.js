@@ -138,13 +138,13 @@ export default class EditPointView extends AbstractStatefulView {
   // }
 
   setClickHandler = (callback) => {
-    this._callback.click = callback;
+    this._callback.clickHandler = callback;
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#clickHandler);
   };
 
   #clickHandler = (evt) => {
     evt.preventDefault();
-    this._callback.click();
+    this._callback.clickHandler();
   };
 
   setFormSubmitHandler = (callback) => {
@@ -155,5 +155,18 @@ export default class EditPointView extends AbstractStatefulView {
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
     this._callback.formSubmit(EditPointView.parseStateToEditPoint(this._state));
+  };
+
+  setTypeClickHandler = (callback) => {
+    this._callback.typeClick = callback;
+    this.element.querySelectorAll('.event__type-item').forEach((typeItem) => {
+      typeItem.addEventListener('click', this.#typeClickHandler);
+    });
+  };
+
+  #typeClickHandler = (evt) => {
+    evt.preventDefault();
+    const selectedType = this.#pointTypes.find(item => item.type === evt.target.parentElement.querySelector('input').value);
+    console.log(selectedType.type)
   };
 }

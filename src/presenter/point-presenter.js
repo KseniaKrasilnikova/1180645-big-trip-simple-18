@@ -52,6 +52,9 @@ export default class PointPresenter {
     this.#pointComponent.setClickHandler(this.#toEditingMode);
     this.#editPointComponent.setClickHandler(this.#toDefaultMode);
     this.#editPointComponent.setFormSubmitHandler(this.#handleFormSubmit);
+    this.#editPointComponent.setTypeClickHandler(function () {
+
+    });
   };
 
   destroy = () => {
