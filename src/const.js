@@ -13,54 +13,6 @@ function generateOffersArrayIds() {
   return result;
 }
 
-export const POINT_TYPES = [
-  {
-    type: 'taxi',
-    name: 'Taxi',
-    offers: []
-  },
-  {
-    type: 'bus',
-    name: 'Bus',
-    offers: generateOffersArrayIds(),
-  },
-  {
-    type: 'train',
-    name: 'Train',
-    offers: generateOffersArrayIds(),
-  },
-  {
-    type: 'ship',
-    name: 'Ship',
-    offers: generateOffersArrayIds(),
-  },
-  {
-    type: 'drive',
-    name: 'Drive',
-    offers: generateOffersArrayIds(),
-  },
-  {
-    type: 'flight',
-    name: 'Flight',
-    offers: generateOffersArrayIds(),
-  },
-  {
-    type: 'check-in',
-    name: 'Check-in',
-    offers: generateOffersArrayIds(),
-  },
-  {
-    type: 'sightseeing',
-    name: 'Sightseeing',
-    offers: generateOffersArrayIds(),
-  },
-  {
-    type: 'restaurant',
-    name: 'Restaurant',
-    offers: generateOffersArrayIds(),
-  },
-];
-
 export const OFFERS = [
   {
     id: 0,
@@ -103,6 +55,54 @@ export const OFFERS = [
     name: 'Switch to comfort',
   },
 ]
+
+export const POINT_TYPES = [
+  {
+    type: 'taxi',
+    name: 'Taxi',
+    offers: generateOffersArrayIds(),
+  },
+  {
+    type: 'bus',
+    name: 'Bus',
+    offers: generateOffersArrayIds(),
+  },
+  {
+    type: 'train',
+    name: 'Train',
+    offers: generateOffersArrayIds(),
+  },
+  {
+    type: 'ship',
+    name: 'Ship',
+    offers: generateOffersArrayIds(),
+  },
+  {
+    type: 'drive',
+    name: 'Drive',
+    offers: generateOffersArrayIds(),
+  },
+  {
+    type: 'flight',
+    name: 'Flight',
+    offers: generateOffersArrayIds(),
+  },
+  {
+    type: 'check-in',
+    name: 'Check-in',
+    offers: generateOffersArrayIds(),
+  },
+  {
+    type: 'sightseeing',
+    name: 'Sightseeing',
+    offers: generateOffersArrayIds(),
+  },
+  {
+    type: 'restaurant',
+    name: 'Restaurant',
+    offers: generateOffersArrayIds(),
+  },
+];
 
 export const FilterType = {
   ALL: 'Everything',

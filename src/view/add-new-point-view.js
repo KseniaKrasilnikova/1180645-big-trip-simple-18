@@ -2,7 +2,7 @@ import AbstractView from '../framework/view/abstract-view.js';
 import {pics} from '../mock/mock-destination';
 import {getDMYTFromDate} from '../utils/point-utils';
 
-const AddNewPointViewTemplate = (point, offers, pointOffers, destinations) => {
+const AddNewPointViewTemplate = (point, offers, destinations) => {
   const {dateFrom, dateTo, type} = point;
   const {name, description, pictures} = destinations;
 
@@ -144,18 +144,16 @@ const AddNewPointViewTemplate = (point, offers, pointOffers, destinations) => {
 export default class AddNewPointView extends AbstractView {
   #point = null;
   #offers = null;
-  #pointOffers = null;
   #destinations = null;
 
   constructor(point, offers, pointOffers, destinations) {
     super();
     this.#point = point;
     this.#offers = offers;
-    this.#pointOffers = pointOffers;
     this.#destinations = destinations;
   }
 
   get template() {
-    return AddNewPointViewTemplate(this.#point, this.#offers, this.#pointOffers, this.#destinations);
+    return AddNewPointViewTemplate(this.#point, this.#offers, this.#destinations);
   }
 }

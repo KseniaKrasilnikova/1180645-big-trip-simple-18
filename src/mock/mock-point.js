@@ -1,5 +1,4 @@
 import {getRandomInteger} from '../utils/common';
-import {generateArray} from '../utils/point-utils';
 import dayjs from 'dayjs';
 import {POINT_TYPES, POINTS_COUNT} from '../const';
 
@@ -24,6 +23,5 @@ export const generatePoint = () => ({
   'dateTo': generateDate(),
   'destination': getRandomInteger(1, POINTS_COUNT),
   'id': getRandomInteger(0, 1000),
-  'offers': generateArray(),
   'type': POINT_TYPES[getRandomInteger(0, POINT_TYPES.length - 1)]
 });

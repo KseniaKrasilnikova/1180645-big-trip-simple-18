@@ -88,7 +88,7 @@ export default class ListPresenter {
         const point = this.#points[i];
         const pointPresenter = new PointPresenter(
           point,
-          this.#pointsModel.getPointOffers(point),
+          this.#pointsModel.offers,
           this.#pointsModel.getPointDestination(point),
           this.#pointsModel.destinations,
           this.#pointsModel.pointTypes,
@@ -98,15 +98,14 @@ export default class ListPresenter {
         this.#pointsPresenters.push(pointPresenter);
       }
 
-      this.#renderAddNewPoint(this.#pointsModel.addPoint);
+      // this.#renderAddNewPoint(this.#pointsModel.addPoint);
     }
   };
 
   #renderAddNewPoint = (point) => {
-    const addNewPointComponent = new AddNewPointView( // создает экземпляр AddNewPointView
+    const addNewPointComponent = new AddNewPointView(
       point,
       this.#pointsModel.offers,
-      this.#pointsModel.getPointOffers(point),
       this.#pointsModel.getPointDestination(point)
     );
 

@@ -1,17 +1,17 @@
-import AbstractView from '../framework/view/abstract-view.js';
 import {getDMYTFromDate} from '../utils/point-utils';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view';
 
-const createEditPointTemplate = (point, offers, destination, allDestinations, pointTypes) => {
-  const {dateFrom, dateTo, type, basePrice} = point;
+const createEditPointTemplate = (point, allOffers, destination, allDestinations, pointTypes) => {
+  const {dateFrom, dateTo, basePrice} = point;
   const {name, description} = destination;
+  const currentTypeOffers = allOffers.filter((offer) => point.type.offers.includes(offer.id))
 
   const generateOffersTemplate = () => `
-    ${offers.map((offer) => `
+    ${currentTypeOffers.map((offer) => `
       <div class="event__offer-selector">
         <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.id}" type="checkbox" name="event-offer-${offer.id}" checked>
         <label class="event__offer-label" for="event-offer-${offer.id}">
-          <span class="event__offer-title">${offer.title}</span>
+          <span class="event__offer-title">${offer.name}</span>
             &plus;&euro;&nbsp;
           <span class="event__offer-price">${offer.price}</span>
         </label>
@@ -41,7 +41,7 @@ const createEditPointTemplate = (point, offers, destination, allDestinations, po
           <div class="event__type-wrapper">
             <label class="event__type  event__type-btn" for="event-type-toggle-1">
               <span class="visually-hidden">Choose event type</span>
-              <img class="event__type-icon" width="17" height="17" src="img/icons/${type.type}.png" alt="Event type icon">
+              <img class="event__type-icon" width="17" height="17" src="img/icons/${point.type.type}.png" alt="Event type icon">
             </label>
             <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
 
@@ -55,7 +55,7 @@ const createEditPointTemplate = (point, offers, destination, allDestinations, po
 
           <div class="event__field-group  event__field-group--destination">
             <label class="event__label  event__type-output" for="event-destination-1">
-              ${type.name}
+              ${point.type.name}
             </label>
             <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${name}" list="destination-list-1">
             <datalist id="destination-list-1">

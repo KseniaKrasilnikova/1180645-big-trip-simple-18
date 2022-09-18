@@ -1,14 +1,15 @@
 import {getDayFromDate, getTimeFromDate, getYyyyMmDdTFromDate} from '../utils/point-utils';
 import AbstractView from '../framework/view/abstract-view.js';
 
-const createPointViewTemplate = (point, offers, destinations) => {
-  const {dateFrom, dateTo, basePrice, type} = point;
+const createPointViewTemplate = (point, allOffers, destinations) => {
+  const {dateFrom, dateTo, basePrice} = point;
   const {name} = destinations;
+  const currentTypeOffers = allOffers.filter((offer) => point.type.offers.includes(offer.id))
 
-  const generateOffersTemplate = (generatedOffers) => `
-    ${generatedOffers.map((offer) => `
+  const generateOffersTemplate = () => `
+    ${currentTypeOffers.map((offer) => `
       <li class="event__offer">
-        <span class="event__offer-title">${offer.title}</span>
+        <span class="event__offer-title">${offer.name}</span>
         &plus;&euro;&nbsp;
         <span class="event__offer-price">${offer.price}</span>
       </li>
@@ -20,9 +21,9 @@ const createPointViewTemplate = (point, offers, destinations) => {
     <div class="event">
       <time class="event__date" datetime="${getYyyyMmDdTFromDate(dateFrom)}">${getDayFromDate(dateFrom)}</time>
       <div class="event__type">
-        <img class="event__type-icon" width="42" height="42" src="img/icons/${type.type}.png" alt="Event type icon">
+        <img class="event__type-icon" width="42" height="42" src="img/icons/${point.type.type}.png" alt="Event type icon">
       </div>
-      <h3 class="event__title">${type.name} ${name}</h3>
+      <h3 class="event__title">${point.type.name} ${name}</h3>
       <div class="event__schedule">
         <p class="event__time">
           <time class="event__start-time" datetime="${getYyyyMmDdTFromDate(dateFrom)}">${getTimeFromDate(dateFrom)}</time>
@@ -35,7 +36,7 @@ const createPointViewTemplate = (point, offers, destinations) => {
        </p>
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
-        ${generateOffersTemplate(offers)}
+        ${generateOffersTemplate(allOffers)}
       </ul>
       <button class="event__rollup-btn" type="button">
         <span class="visually-hidden">Open event</span>
@@ -49,16 +50,18 @@ export default class PointView extends AbstractView {
   #point = null;
   #offers = null;
   #destinations = null;
+  #pointTypes = [];
 
-  constructor(point, offers, destinations) {
+  constructor(point, offers, destinations, pointTypes) {
     super();
     this.#point = point;
     this.#offers = offers;
     this.#destinations = destinations;
+    this.#pointTypes = pointTypes;
   }
 
   get template() {
-    return createPointViewTemplate(this.#point, this.#offers, this.#destinations);
+    return createPointViewTemplate(this.#point, this.#offers, this.#destinations, this.#pointTypes);
   }
 
   setClickHandler = (callback) => {
