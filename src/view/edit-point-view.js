@@ -1,15 +1,15 @@
 import {getDMYTFromDate} from '../utils/point-utils';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view';
 
-const createEditPointTemplate = (point, allOffers, destination, allDestinations, pointTypes) => {
-  const {dateFrom, dateTo, basePrice} = point;
+const createEditPointTemplate = (state, allOffers, destination, allDestinations, pointTypes) => {
+  const {dateFrom, dateTo, basePrice} = state;
   const {name, description} = destination;
-  const currentTypeOffers = allOffers.filter((offer) => point.type.offers.includes(offer.id))
+  const currentTypeOffers = allOffers.filter((offer) => state.type.offers.includes(offer.id))
 
   const generateOffersTemplate = () => `
     ${currentTypeOffers.map((offer) => `
       <div class="event__offer-selector">
-        <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.id}" type="checkbox" name="event-offer-${offer.id}" checked>
+        <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.id}" type="checkbox" name="event-offer-${offer.id}">
         <label class="event__offer-label" for="event-offer-${offer.id}">
           <span class="event__offer-title">${offer.name}</span>
             &plus;&euro;&nbsp;
@@ -41,7 +41,7 @@ const createEditPointTemplate = (point, allOffers, destination, allDestinations,
           <div class="event__type-wrapper">
             <label class="event__type  event__type-btn" for="event-type-toggle-1">
               <span class="visually-hidden">Choose event type</span>
-              <img class="event__type-icon" width="17" height="17" src="img/icons/${point.type.type}.png" alt="Event type icon">
+              <img class="event__type-icon" width="17" height="17" src="img/icons/${state.type.type}.png" alt="Event type icon">
             </label>
             <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
 
@@ -55,7 +55,7 @@ const createEditPointTemplate = (point, allOffers, destination, allDestinations,
 
           <div class="event__field-group  event__field-group--destination">
             <label class="event__label  event__type-output" for="event-destination-1">
-              ${point.type.name}
+              ${state.type.name}
             </label>
             <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${name}" list="destination-list-1">
             <datalist id="destination-list-1">
@@ -130,12 +130,15 @@ export default class EditPointView extends AbstractStatefulView {
   });
 
   _restoreHandlers = () => {
-
+    this.setClickHandler(this._callback.clickHandler);
+    this.setFormSubmitHandler(this._callback.formSubmit);
+    this.setTypeClickHandler(this._callback.typeClick);
   }
 
   // #onDestinationSelected = (newDestination) => {
   //   this.#destinations.find((item) => z )
   // }
+
 
   setClickHandler = (callback) => {
     this._callback.clickHandler = callback;
@@ -167,6 +170,8 @@ export default class EditPointView extends AbstractStatefulView {
   #typeClickHandler = (evt) => {
     evt.preventDefault();
     const selectedType = this.#pointTypes.find(item => item.type === evt.target.parentElement.querySelector('input').value);
-    console.log(selectedType.type)
+    this.updateElement({
+      type: selectedType,
+    });
   };
 }
