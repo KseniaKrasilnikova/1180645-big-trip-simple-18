@@ -1,11 +1,11 @@
 import {generatePoint} from '../mock/mock-point';
 import {generateDestination} from '../mock/mock-destination';
-import {OFFERS, POINT_TYPES, POINTS_COUNT} from '../const';
+import {OFFERS, POINT_TYPES, POINTS_COUNT, CITIES} from '../const';
 
 export default class PointModel {
   #points = Array.from({length: POINTS_COUNT}, generatePoint);
   #offers = OFFERS;
-  #destinations = Array.from({length: POINTS_COUNT}, (_value, key) => generateDestination(key + 1));
+  #destinations = CITIES.map((cityName, index) => generateDestination(cityName, index + 1));
   #pointTypes = POINT_TYPES;
   #addPoint = generatePoint();
 

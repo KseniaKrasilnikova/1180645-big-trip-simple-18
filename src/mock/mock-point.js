@@ -1,6 +1,6 @@
 import {getRandomInteger} from '../utils/common';
 import dayjs from 'dayjs';
-import {POINT_TYPES, POINTS_COUNT} from '../const';
+import {CITIES, POINT_TYPES, POINTS_COUNT} from '../const';
 
 const generateDate = () => {
   const maxDaysGap = 50;
@@ -21,7 +21,7 @@ export const generatePoint = () => ({
   'basePrice': getRandomInteger(1000, 20000),
   'dateFrom': generateDate(),
   'dateTo': generateDate(),
-  'destination': getRandomInteger(1, POINTS_COUNT),
+  'destination': getRandomInteger(1, CITIES.length),
   'id': getRandomInteger(0, 1000),
   'type': POINT_TYPES[getRandomInteger(0, POINT_TYPES.length - 1)]
 });

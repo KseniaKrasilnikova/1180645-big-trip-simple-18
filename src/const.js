@@ -116,3 +116,13 @@ export const SortType = {
   PRICE: 'price',
   OFFER: 'offer',
 };
+
+export const CITIES = [
+  'Chamonix',
+  'Paris',
+  'Moscow',
+  'Stockholm',
+  'Limassol',
+  'London',
+  'Madrid',
+];

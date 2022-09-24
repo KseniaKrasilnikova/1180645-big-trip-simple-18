@@ -1,9 +1,10 @@
 import {getDMYTFromDate} from '../utils/point-utils';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view';
+import {pics} from '../mock/mock-destination';
 
-const createEditPointTemplate = (state, allOffers, destination, allDestinations, pointTypes) => {
+const createEditPointTemplate = (state, allOffers, allDestinations, pointTypes) => {
   const {dateFrom, dateTo, basePrice} = state;
-  const {name, description} = destination;
+  const destination = allDestinations.find(destination => destination.id === state.destination);
   const currentTypeOffers = allOffers.filter((offer) => state.type.offers.includes(offer.id))
 
   const generateOffersTemplate = () => `
@@ -21,7 +22,7 @@ const createEditPointTemplate = (state, allOffers, destination, allDestinations,
 
   const allDestinationsMarkup = () => `
     ${allDestinations.map((destination) => `
-      <option value=${destination.name}"></option>
+      <option value=${destination.name}></option>
     `).join('')}
   `;
 
@@ -33,6 +34,15 @@ const createEditPointTemplate = (state, allOffers, destination, allDestinations,
       </div>
     `).join('')}
   `;
+
+  const renderPictures = (ids) => (
+    ids.map((id) => {
+      const picture = pics.find((pic) => (
+        pic.id === id
+      ));
+      return `<img class="event__photo" src=${picture.src} alt=${picture.description}>`;
+    }).join('')
+  );
 
   return (
     `<li class="trip-events__item">
@@ -57,7 +67,7 @@ const createEditPointTemplate = (state, allOffers, destination, allDestinations,
             <label class="event__label  event__type-output" for="event-destination-1">
               ${state.type.name}
             </label>
-            <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${name}" list="destination-list-1">
+            <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value=${destination.name} list="destination-list-1">
             <datalist id="destination-list-1">
                 ${allDestinationsMarkup()}
             </datalist>
@@ -94,7 +104,12 @@ const createEditPointTemplate = (state, allOffers, destination, allDestinations,
           </section>
           <section class="event__section  event__section--destination">
             <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-            <p class="event__destination-description">${description}</p>
+            <p class="event__destination-description">${destination.description}</p>
+            <div class="event__photos-container">
+                <div class="event__photos-tape">
+                    ${renderPictures(destination.pictures)}
+                </div>
+            </div>
           </section>
         </section>
       </form>
@@ -104,7 +119,6 @@ const createEditPointTemplate = (state, allOffers, destination, allDestinations,
 
 export default class EditPointView extends AbstractStatefulView {
   #offers = null;
-  #destination = null;
   #allDestinations = [];
   #pointTypes = [];
 
@@ -112,13 +126,12 @@ export default class EditPointView extends AbstractStatefulView {
     super();
     this._state = EditPointView.parseEditPointToState(point)  // метод разбирает данные, к-ый передаются в конструктор, и на их основе заполнить состояние.
     this.#offers = offers;
-    this.#destination = destination;
     this.#allDestinations = allDestinations;
     this.#pointTypes = pointTypes;
   }
 
   get template() {
-    return createEditPointTemplate(this._state, this.#offers, this.#destination, this.#allDestinations, this.#pointTypes);
+    return createEditPointTemplate(this._state, this.#offers, this.#allDestinations, this.#pointTypes);
   }
 
   static parseEditPointToState = (point) => ({
@@ -132,13 +145,9 @@ export default class EditPointView extends AbstractStatefulView {
   _restoreHandlers = () => {
     this.setClickHandler(this._callback.clickHandler);
     this.setFormSubmitHandler(this._callback.formSubmit);
-    this.setTypeClickHandler(this._callback.typeClick);
+    this.setTypeClickHandler();
+    this.setDestinationClickHandler();
   }
-
-  // #onDestinationSelected = (newDestination) => {
-  //   this.#destinations.find((item) => z )
-  // }
-
 
   setClickHandler = (callback) => {
     this._callback.clickHandler = callback;
@@ -160,8 +169,7 @@ export default class EditPointView extends AbstractStatefulView {
     this._callback.formSubmit(EditPointView.parseStateToEditPoint(this._state));
   };
 
-  setTypeClickHandler = (callback) => {
-    this._callback.typeClick = callback;
+  setTypeClickHandler = () => {
     this.element.querySelectorAll('.event__type-item').forEach((typeItem) => {
       typeItem.addEventListener('click', this.#typeClickHandler);
     });
@@ -173,5 +181,19 @@ export default class EditPointView extends AbstractStatefulView {
     this.updateElement({
       type: selectedType,
     });
+  };
+
+  setDestinationClickHandler = () => {
+    this.element.querySelector('.event__input--destination').addEventListener('input', this.#destinationClickHandler);
+  };
+
+  #destinationClickHandler = (evt) => {
+    const selectedPlaceName = evt.target.parentElement.querySelector('input').value;
+    const selectedPlace = this.#allDestinations.find(destination => destination.name === selectedPlaceName);
+    if(selectedPlace) {
+      this.updateElement({
+        destination: selectedPlace.id,
+      });
+    }
   };
 }
