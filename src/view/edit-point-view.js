@@ -5,7 +5,7 @@ import {pics} from '../mock/mock-destination';
 const createEditPointTemplate = (state, allOffers, allDestinations, pointTypes) => {
   const {dateFrom, dateTo, basePrice} = state;
   const destination = allDestinations.find(destination => destination.id === state.destination);
-  const currentTypeOffers = allOffers.filter((offer) => state.type.offers.includes(offer.id))
+  const currentTypeOffers = allOffers.filter((offer) => state.type.offers.includes(offer.id));
 
   const generateOffersTemplate = () => `
     ${currentTypeOffers.map((offer) => `
@@ -122,12 +122,14 @@ export default class EditPointView extends AbstractStatefulView {
   #allDestinations = [];
   #pointTypes = [];
 
-  constructor(point, offers, destination, allDestinations, pointTypes) {
+  constructor(point, offers, allDestinations, pointTypes) {
     super();
-    this._state = EditPointView.parseEditPointToState(point)  // метод разбирает данные, к-ый передаются в конструктор, и на их основе заполнить состояние.
+    this._state = EditPointView.parseEditPointToState(point); // метод разбирает данные, к-ый передаются в конструктор, и на их основе заполнить состояние.
     this.#offers = offers;
     this.#allDestinations = allDestinations;
     this.#pointTypes = pointTypes;
+    this.#setTypeClickHandler();
+    this.#setDestinationClickHandler();
   }
 
   get template() {
@@ -145,9 +147,9 @@ export default class EditPointView extends AbstractStatefulView {
   _restoreHandlers = () => {
     this.setClickHandler(this._callback.clickHandler);
     this.setFormSubmitHandler(this._callback.formSubmit);
-    this.setTypeClickHandler();
-    this.setDestinationClickHandler();
-  }
+    this.#setTypeClickHandler();
+    this.#setDestinationClickHandler();
+  };
 
   setClickHandler = (callback) => {
     this._callback.clickHandler = callback;
@@ -169,7 +171,7 @@ export default class EditPointView extends AbstractStatefulView {
     this._callback.formSubmit(EditPointView.parseStateToEditPoint(this._state));
   };
 
-  setTypeClickHandler = () => {
+  #setTypeClickHandler = () => {
     this.element.querySelectorAll('.event__type-item').forEach((typeItem) => {
       typeItem.addEventListener('click', this.#typeClickHandler);
     });
@@ -183,7 +185,7 @@ export default class EditPointView extends AbstractStatefulView {
     });
   };
 
-  setDestinationClickHandler = () => {
+  #setDestinationClickHandler = () => {
     this.element.querySelector('.event__input--destination').addEventListener('input', this.#destinationClickHandler);
   };
 

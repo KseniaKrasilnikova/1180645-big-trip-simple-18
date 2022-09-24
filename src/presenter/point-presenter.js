@@ -38,12 +38,12 @@ export default class PointPresenter {
       this.#point,
       this.#offers,
       this.#destination,
+      this.#pointTypes
     );
 
     this.#editPointComponent = new EditPointView(
       this.#point,
       this.#offers,
-      this.#destination,
       this.#allDestinations,
       this.#pointTypes
     );

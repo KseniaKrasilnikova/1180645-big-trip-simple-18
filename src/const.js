@@ -3,7 +3,7 @@ import {getRandomInteger} from './utils/common';
 export const POINTS_COUNT = 10;
 
 function generateOffersArrayIds() {
-  const ids = OFFERS.map(offer => offer.id)
+  const ids = OFFERS.map(offer => offer.id);
   const length = getRandomInteger(1, OFFERS.length)
   const result = [];
   for (let i = 0; i < length; i++) {
@@ -54,7 +54,7 @@ export const OFFERS = [
     price: getRandomInteger(100, 5000),
     name: 'Switch to comfort',
   },
-]
+];
 
 export const POINT_TYPES = [
   {

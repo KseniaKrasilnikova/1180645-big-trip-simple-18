@@ -1,6 +1,6 @@
 import {getRandomInteger} from '../utils/common';
 import dayjs from 'dayjs';
-import {CITIES, POINT_TYPES, POINTS_COUNT} from '../const';
+import {CITIES, POINT_TYPES} from '../const';
 
 const generateDate = () => {
   const maxDaysGap = 50;

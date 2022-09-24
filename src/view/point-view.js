@@ -1,10 +1,10 @@
 import {getDayFromDate, getTimeFromDate, getYyyyMmDdTFromDate} from '../utils/point-utils';
 import AbstractView from '../framework/view/abstract-view.js';
 
-const createPointViewTemplate = (point, allOffers, destinations) => {
+const createPointViewTemplate = (point, allOffers, destination) => {
   const {dateFrom, dateTo, basePrice} = point;
-  const {name} = destinations;
-  const currentTypeOffers = allOffers.filter((offer) => point.type.offers.includes(offer.id))
+  const {name} = destination;
+  const currentTypeOffers = allOffers.filter((offer) => point.type.offers.includes(offer.id));
 
   const generateOffersTemplate = () => `
     ${currentTypeOffers.map((offer) => `
@@ -49,19 +49,19 @@ const createPointViewTemplate = (point, allOffers, destinations) => {
 export default class PointView extends AbstractView {
   #point = null;
   #offers = null;
-  #destinations = null;
+  #destination = null;
   #pointTypes = [];
 
-  constructor(point, offers, destinations, pointTypes) {
+  constructor(point, offers, destination, pointTypes) {
     super();
     this.#point = point;
     this.#offers = offers;
-    this.#destinations = destinations;
+    this.#destination = destination;
     this.#pointTypes = pointTypes;
   }
 
   get template() {
-    return createPointViewTemplate(this.#point, this.#offers, this.#destinations, this.#pointTypes);
+    return createPointViewTemplate(this.#point, this.#offers, this.#destination, this.#pointTypes);
   }
 
   setClickHandler = (callback) => {
