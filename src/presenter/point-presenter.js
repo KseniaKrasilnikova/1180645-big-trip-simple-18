@@ -11,6 +11,8 @@ export default class PointPresenter {
   #point = null;
   #offers = null;
   #destination = null;
+  #allDestinations = null;
+  #pointTypes = null;
   #editPointComponent;
   /**
    * @type {PointView}
@@ -22,27 +24,31 @@ export default class PointPresenter {
   #editingListener = null;
   #mode = Mode.DEFAULT;
 
-  constructor(point, offers, destination, editingListener) {
+  constructor(point, offers, destination, allDestinations, pointTypes, editingListener) {
     this.#point = point;
     this.#offers = offers;
     this.#destination = destination;
+    this.#allDestinations = allDestinations;
+    this.#pointTypes = pointTypes;
     this.#editingListener = editingListener;
   }
 
   init = (container) => {
-    this.#pointComponent = new PointView( // создает экземпляр PointView
+    this.#pointComponent = new PointView(
       this.#point,
       this.#offers,
       this.#destination,
+      this.#pointTypes
     );
 
     this.#editPointComponent = new EditPointView(
       this.#point,
       this.#offers,
-      this.#destination
+      this.#allDestinations,
+      this.#pointTypes
     );
 
-    this.#renderPoint(container); // отрисовали все карточки
+    this.#renderPoint(container);
     this.#pointComponent.setClickHandler(this.#toEditingMode);
     this.#editPointComponent.setClickHandler(this.#toDefaultMode);
     this.#editPointComponent.setFormSubmitHandler(this.#handleFormSubmit);
@@ -95,6 +101,6 @@ export default class PointPresenter {
   };
 
   #renderPoint = (container) => {
-    render(this.#pointComponent, container); // отрисовывает в нужное место
+    render(this.#pointComponent, container);
   };
 }

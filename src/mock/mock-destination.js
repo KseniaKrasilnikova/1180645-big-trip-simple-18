@@ -6,27 +6,13 @@ const generateDescription = () => {
     'Chamonix, is a beautiful city, a true asian pearl, with crowded streets.',
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget.',
     'Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra.',
+    'Ajhs hdh eufh efhhfehf otiyto[yo erto srg ldkg fjglrtjgrjtyit irotiorti proit rtit.',
+    'Variant fjdjfh fjfh fjd afew-r-eor tirtrit lkgoritkeporjg jrjfrkjtkerjt jertertjltloweitirutn vjesrh ekjrfejkrh.',
   ];
 
   const randomIndex = getRandomInteger(0, descriptions.length - 1);
 
   return descriptions[randomIndex];
-};
-
-export const generateCityName = () => {
-  const cities = [
-    'Chamonix',
-    'Paris',
-    'Moscow',
-    'Stockholm',
-    'Limassol',
-    'London',
-    'Madrid',
-  ];
-
-  const randomIndex = getRandomInteger(0, cities.length - 1);
-
-  return cities[randomIndex];
 };
 
 export const pics = [
@@ -52,9 +38,10 @@ export const pics = [
   },
 ];
 
-export const generateDestination = (id) => ({
+export const generateDestination = (cityName, id) => ({
   id,
   'description': generateDescription(),
-  'name': generateCityName(),
+  'name': cityName,
   'pictures': shuffle([0, 1, 2, 3])
 });
+

@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import {getRandomInteger} from './common';
-import {POINTS_COUNT} from '../const';
+import {OFFERS, POINTS_COUNT} from '../const';
 
 const getDayFromDate = (date) => dayjs(date).format('D MMM');
 const getTimeFromDate = (date) => dayjs(date).format('hh:mm');
@@ -16,6 +16,17 @@ function shuffle(array) {
       array[randomIndex], array[currentIndex]];
   }
   return array;
+}
+
+function generateOffersArrayIds() {
+  const ids = OFFERS.map((offer) => offer.id);
+  const length = getRandomInteger(1, OFFERS.length);
+  const result = [];
+  for (let i = 0; i < length; i++) {
+    result.push(ids[getRandomInteger(0, ids.length - 1)]);
+    ids.splice(i, 1);
+  }
+  return result;
 }
 
 const generateArray = () => {
@@ -76,7 +87,6 @@ const sortPointDown = (pointA, pointB) => {
 
 const sortPointByPrice = (pointA, pointB) => pointA.basePrice - pointB.basePrice;
 
-
 export {
   generateArray,
   getDayFromDate,
@@ -84,6 +94,7 @@ export {
   getYyyyMmDdTFromDate,
   getDMYTFromDate,
   shuffle,
+  generateOffersArrayIds,
   isFutureEvent,
   updateItem,
   // sortPointUp,

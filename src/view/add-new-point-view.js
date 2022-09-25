@@ -2,7 +2,7 @@ import AbstractView from '../framework/view/abstract-view.js';
 import {pics} from '../mock/mock-destination';
 import {getDMYTFromDate} from '../utils/point-utils';
 
-const AddNewPointViewTemplate = (point, offers, pointOffers, destinations) => {
+const AddNewPointViewTemplate = (point, offers, destinations) => {
   const {dateFrom, dateTo, type} = point;
   const {name, description, pictures} = destinations;
 
@@ -124,7 +124,8 @@ const AddNewPointViewTemplate = (point, offers, pointOffers, destinations) => {
         <section class="event__section  event__section--offers">
           <h3 class="event__section-title  event__section-title--offers">Offers</h3>
           <div class="event__available-offers">
-            ${generateOffersTemplate(offers, pointOffers.map((offer) => offer.id ))}
+<!--            pointOffers-->
+            ${generateOffersTemplate(offers, offers.map((offer) => offer.id ))}
         </section>
         <section class="event__section  event__section--destination">
           <h3 class="event__section-title  event__section-title--destination">Destination</h3>
@@ -144,18 +145,16 @@ const AddNewPointViewTemplate = (point, offers, pointOffers, destinations) => {
 export default class AddNewPointView extends AbstractView {
   #point = null;
   #offers = null;
-  #pointOffers = null;
   #destinations = null;
 
   constructor(point, offers, pointOffers, destinations) {
     super();
     this.#point = point;
     this.#offers = offers;
-    this.#pointOffers = pointOffers;
     this.#destinations = destinations;
   }
 
   get template() {
-    return AddNewPointViewTemplate(this.#point, this.#offers, this.#pointOffers, this.#destinations);
+    return AddNewPointViewTemplate(this.#point, this.#offers, this.#destinations);
   }
 }
