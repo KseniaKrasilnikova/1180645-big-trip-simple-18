@@ -4,7 +4,7 @@ import {pics} from '../mock/mock-destination';
 
 const createEditPointTemplate = (state, allOffers, allDestinations, pointTypes) => {
   const {dateFrom, dateTo, basePrice} = state;
-  const destination = allDestinations.find(destination => destination.id === state.destination);
+  const place = allDestinations.find((destination) => destination.id === state.destination);
   const currentTypeOffers = allOffers.filter((offer) => state.type.offers.includes(offer.id));
 
   const generateOffersTemplate = () => `
@@ -67,7 +67,7 @@ const createEditPointTemplate = (state, allOffers, allDestinations, pointTypes) 
             <label class="event__label  event__type-output" for="event-destination-1">
               ${state.type.name}
             </label>
-            <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value=${destination.name} list="destination-list-1">
+            <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value=${place.name} list="destination-list-1">
             <datalist id="destination-list-1">
                 ${allDestinationsMarkup()}
             </datalist>
@@ -104,10 +104,10 @@ const createEditPointTemplate = (state, allOffers, allDestinations, pointTypes) 
           </section>
           <section class="event__section  event__section--destination">
             <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-            <p class="event__destination-description">${destination.description}</p>
+            <p class="event__destination-description">${place.description}</p>
             <div class="event__photos-container">
                 <div class="event__photos-tape">
-                    ${renderPictures(destination.pictures)}
+                    ${renderPictures(place.pictures)}
                 </div>
             </div>
           </section>
@@ -179,7 +179,7 @@ export default class EditPointView extends AbstractStatefulView {
 
   #typeClickHandler = (evt) => {
     evt.preventDefault();
-    const selectedType = this.#pointTypes.find(item => item.type === evt.target.parentElement.querySelector('input').value);
+    const selectedType = this.#pointTypes.find((item) => item.type === evt.target.parentElement.querySelector('input').value);
     this.updateElement({
       type: selectedType,
     });
@@ -191,7 +191,7 @@ export default class EditPointView extends AbstractStatefulView {
 
   #destinationClickHandler = (evt) => {
     const selectedPlaceName = evt.target.parentElement.querySelector('input').value;
-    const selectedPlace = this.#allDestinations.find(destination => destination.name === selectedPlaceName);
+    const selectedPlace = this.#allDestinations.find((destination) => destination.name === selectedPlaceName);
     if(selectedPlace) {
       this.updateElement({
         destination: selectedPlace.id,

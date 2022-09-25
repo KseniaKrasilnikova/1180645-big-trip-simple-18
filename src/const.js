@@ -1,17 +1,7 @@
 import {getRandomInteger} from './utils/common';
+import {generateOffersArrayIds} from './utils/point-utils';
 
 export const POINTS_COUNT = 10;
-
-function generateOffersArrayIds() {
-  const ids = OFFERS.map(offer => offer.id);
-  const length = getRandomInteger(1, OFFERS.length)
-  const result = [];
-  for (let i = 0; i < length; i++) {
-    result.push(ids[getRandomInteger(0, ids.length - 1)]);
-    ids.splice(i, 1);
-  }
-  return result;
-}
 
 export const OFFERS = [
   {

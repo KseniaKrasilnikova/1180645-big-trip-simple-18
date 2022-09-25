@@ -124,7 +124,8 @@ const AddNewPointViewTemplate = (point, offers, destinations) => {
         <section class="event__section  event__section--offers">
           <h3 class="event__section-title  event__section-title--offers">Offers</h3>
           <div class="event__available-offers">
-            ${generateOffersTemplate(offers, pointOffers.map((offer) => offer.id ))}
+<!--            pointOffers-->
+            ${generateOffersTemplate(offers, offers.map((offer) => offer.id ))}
         </section>
         <section class="event__section  event__section--destination">
           <h3 class="event__section-title  event__section-title--destination">Destination</h3>
